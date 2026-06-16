@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 import AlchemistSVGNoBg from '@/components/molekule/alchemist-no-bg';
 
 const MenuSection = () => {

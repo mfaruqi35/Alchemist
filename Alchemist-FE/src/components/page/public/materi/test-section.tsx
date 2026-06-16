@@ -1,11 +1,13 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import AlchemistSVGNoBg from '@/components/molekule/alchemist-no-bg';
 
 export default function TestSection() {
+  const router = useRouter();
   const [currentQuestion, setCurrentQuestion] = useState(3);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const totalQuestions = 5;
@@ -21,7 +23,7 @@ export default function TestSection() {
   };
 
   return (
-    <section className="relative w-full  flex flex-col items-center justify-center overflow-hidden py-10">
+    <section className="relative w-full mt-25  flex flex-col items-center justify-center overflow-hidden py-10">
       {/* Background SVG */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
         <AlchemistSVGNoBg />
@@ -89,8 +91,12 @@ export default function TestSection() {
               <div className="mt-4 md:mt-8 flex justify-end w-full px-2 md:px-12">
                 <button
                   onClick={() => {
-                    if (currentQuestion < totalQuestions) setCurrentQuestion((c) => c + 1);
-                    setSelectedOption(null);
+                    if (currentQuestion < totalQuestions) {
+                      setCurrentQuestion((c) => c + 1);
+                      setSelectedOption(null);
+                    } else {
+                      router.push('/materi/map');
+                    }
                   }}
                   className="px-6 py-3 bg-secondary text-secondary-foreground text-xs md:text-base border-[3px] border-primary hover:bg-primary hover:text-primary-foreground transition-colors shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1 uppercase font-bold tracking-widest"
                 >
