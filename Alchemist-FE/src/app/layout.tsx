@@ -1,7 +1,9 @@
-import { metadata, siteConfig } from './metadata';
 import '@/styles/globals.css';
-import { AppProviders } from './providers';
+
 import { Press_Start_2P } from 'next/font/google';
+
+import { metadata, siteConfig } from './metadata';
+import { AppProviders } from './providers';
 
 const pressStart2P = Press_Start_2P({
   weight: '400',
