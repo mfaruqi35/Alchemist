@@ -1,8 +1,8 @@
 'use client';
-import HeroSection from '@/components/page/public/home/hero-section';
+import CtaSection from '@/components/page/public/home/cta-section';
 import FeaturesSection from '@/components/page/public/home/features-section';
 import FlowSection from '@/components/page/public/home/flow-section';
-import CtaSection from '@/components/page/public/home/cta-section';
+import HeroSection from '@/components/page/public/home/hero-section';
 import NavLayout from '@/core/layouts/nav.layout';
 
 export default function ContainerHome() {

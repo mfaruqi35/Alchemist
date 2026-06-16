@@ -19,7 +19,10 @@ function generateSitemap(locations: string[]) {
 }
 
 export async function GET() {
-    const locations = [`${process.env.NEXT_PUBLIC_APP_URL}`];
+    const locations = [
+        `${process.env.NEXT_PUBLIC_APP_URL}`,
+        `${process.env.NEXT_PUBLIC_APP_URL}/menu`
+    ];
     const xmlResponse = generateSitemap(locations);
 
     return new Response(xmlResponse, {

@@ -1,6 +1,8 @@
-import CloudSvg from '@/components/molekule/cloud';
+import Link from 'next/link';
+
 import AlchemistSVG from '@/components/molekule/alchemist';
 import Cell from '@/components/molekule/cell';
+import CloudSvg from '@/components/molekule/cloud';
 
 const HeroSection = () => {
   return (
@@ -33,9 +35,9 @@ const HeroSection = () => {
         </span>
 
         {/* Call to Action Button */}
-        <button className="px-6 py-3 mb-12 bg-success text-primary-foreground text-xs md:text-sm border-4 border-secondary hover:bg-secondary hover:text-secondary-foreground hover:border-primary transition-colors duration-200 shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1">
+        <Link href="/menu" className="px-6 py-3 mb-12 bg-success text-primary-foreground text-xs md:text-sm border-4 border-secondary hover:bg-secondary hover:text-secondary-foreground hover:border-primary transition-colors duration-200 shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1">
           START BREWING
-        </button>
+        </Link>
       </div>
     </section>
   );

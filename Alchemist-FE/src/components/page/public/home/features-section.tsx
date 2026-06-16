@@ -1,5 +1,5 @@
+import { Bot, ClipboardList, FlaskConical, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
-import { ClipboardList, FlaskConical, Bot, TrendingUp } from 'lucide-react';
 const features = [
   {
     title: 'Assessment & Quiz',

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 const CtaSection = () => {
   return (
@@ -40,9 +41,9 @@ const CtaSection = () => {
                  Ayo mulai eksperimen, kumpulkan data, dan analisis hasil reaksinya.
                </p>
                
-               <button className="px-8 py-4 bg-success text-white text-xs md:text-sm font-bold border-4 border-[#3D6B0B] hover:bg-[#68B014] hover:border-[#4B850E] transition-all duration-200 active:translate-y-1 active:translate-x-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.6)] active:shadow-[0px_0px_0px_0px_rgba(0,0,0,0.6)] tracking-wide uppercase">
+               <Link href="/menu" className="inline-block px-8 py-4 bg-success text-white text-xs md:text-sm font-bold border-4 border-[#3D6B0B] hover:bg-[#68B014] hover:border-[#4B850E] transition-all duration-200 active:translate-y-1 active:translate-x-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.6)] active:shadow-[0px_0px_0px_0px_rgba(0,0,0,0.6)] tracking-wide uppercase">
                  START EXPERIMENT
-               </button>
+               </Link>
             </div>
             
           </div>
