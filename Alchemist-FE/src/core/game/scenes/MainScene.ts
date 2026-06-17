@@ -73,6 +73,22 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.existing(wallTop, true);
     obstacles.add(wallTop);
 
+    const wallLeft = this.add.zone(40, 373, 30, 155);
+    this.physics.add.existing(wallLeft, true);
+    obstacles.add(wallLeft);
+
+    const wallRight = this.add.zone(1450, 598, 30, 55);
+    this.physics.add.existing(wallRight, true);
+    obstacles.add(wallRight);
+
+    const wallBot1 = this.add.zone(305, 1016, 280, 20);
+    this.physics.add.existing(wallBot1, true);
+    obstacles.add(wallBot1);
+
+    const wallBot2 = this.add.zone(1257, 1016, 420, 20);
+    this.physics.add.existing(wallBot2, true);
+    obstacles.add(wallBot2);
+
     const bins = this.add.zone(1413, 388, 100, 360);
     this.physics.add.existing(bins, true);
     obstacles.add(bins);
@@ -91,7 +107,7 @@ export default class MainScene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, obstacles);
     // Buat visual kotak yang terlihat jelas (berwarna hijau transparan)
-    const testBox = this.add.rectangle(73, 592, 120, 120, 0x00ff00, 0.4);
+    const testBox = this.add.rectangle(305, 1016, 420, 20, 0x00ff00, 0.4);
 
     // Aktifkan sistem physics statis
     this.physics.add.existing(testBox, true);
