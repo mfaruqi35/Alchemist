@@ -3,9 +3,10 @@ import Player from '../objects/Player';
 
 export default class MainScene extends Phaser.Scene {
   private interactKey!: Phaser.Input.Keyboard.Key;
+  private notebookKey!: Phaser.Input.Keyboard.Key;
+  private inventoryKey!: Phaser.Input.Keyboard.Key;
   private interactPrompt!: Phaser.GameObjects.Text;
   private activeWorkspaceId: string | null = null;
-  private isNearWorkspace: boolean = false;
   private player!: Player;
 
   constructor() {
@@ -82,6 +83,8 @@ export default class MainScene extends Phaser.Scene {
 
     if (this.input.keyboard) {
       this.interactKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+      this.notebookKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+      this.inventoryKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
     }
 
     this.interactPrompt = this.add.text(width / 2, height / 2, 'Tekan E untuk mulai eksperimen', {
@@ -98,8 +101,8 @@ export default class MainScene extends Phaser.Scene {
 
     const workspaceData = [
       { id: 'buret_station', name: 'Meja Titrasi Buret', x: 745, y: 575, w: 650, h: 260 },
-      { id: 'ph_meter_station', name: 'Meja Pengukuran pH', x: 200, y: 800, w: 150, h: 150 },
-      { id: 'neraca_analitik', name: 'Meja Timbangan Digital', x: 747, y: 980, w: 200, h: 150 },
+      { id: 'storage', name: 'Lemari', x: 200, y: 800, w: 150, h: 150 },
+      { id: 'meja_analisis', name: 'Meja Timbangan Digital', x: 747, y: 980, w: 200, h: 150 },
       { id: 'apd', name: 'Alat Pelindung Diri', x: 430, y: 200, w: 220, h: 200 },
       { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
     ];
@@ -129,6 +132,15 @@ export default class MainScene extends Phaser.Scene {
     // Jalankan loop update milik player untuk mendeteksi pergerakan tombol
     this.player.update();
 
+    if (Phaser.Input.Keyboard.JustDown(this.notebookKey)) {
+      this.handleOpenGlobalOverlay('notebook');
+      return;
+    }
+    if (Phaser.Input.Keyboard.JustDown(this.inventoryKey)) {
+      this.handleOpenGlobalOverlay('inventory');
+      return;
+    }
+
     if (this.activeWorkspaceId !== null) {
       if (Phaser.Input.Keyboard.JustDown(this.interactKey)) {
         this.handleTransitionWorkspace(this.activeWorkspaceId);
@@ -142,5 +154,21 @@ export default class MainScene extends Phaser.Scene {
 
   private handleTransitionWorkspace(workspaceId: string): void {
     console.log(`Transisi ke WORKSPACE ${workspaceId}`);
+  }
+
+  private handleOpenGlobalOverlay(overlayId: string): void {
+    console.log(`Membuka Global Overly ${overlayId}`);
+    this.scene.pause();
+    switch (overlayId) {
+      case 'notebook':
+        this.scene.launch('NotebookScene');
+        break;
+      case 'inventory':
+        this.scene.launch('InventoryScene'); // Membuka file InventoryScene.ts Anda
+        break;
+      default:
+        this.scene.resume('MainScene'); // Pengaman jika ID tidak ditemukan
+        break;
+    }
   }
 }

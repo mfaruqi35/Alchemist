@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import MainScene from '@/core/game/scenes/MainScene';
+import NotebookScene from '@/core/game/scenes/overlayScenes/NotebookScene';
+import InventoryScene from '@/core/game/scenes/overlayScenes/InventoryScene'; // Impor di sini
 
 export default function GameCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -9,7 +12,6 @@ export default function GameCanvas() {
   useEffect(() => {
     async function initPhaser() {
       const Phaser = (await import('phaser')).default;
-      const MainScene = (await import('@/core/game/scenes/MainScene')).default;
 
       const config: Phaser.Types.Core.GameConfig = {
         type: Phaser.AUTO,
@@ -27,7 +29,7 @@ export default function GameCanvas() {
             debug: true,
           },
         },
-        scene: [MainScene],
+        scene: [MainScene, NotebookScene, InventoryScene],
       };
 
       if (!gameRef.current && containerRef.current) {
