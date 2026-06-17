@@ -154,6 +154,16 @@ export default class MainScene extends Phaser.Scene {
 
   private handleTransitionWorkspace(workspaceId: string): void {
     console.log(`Transisi ke WORKSPACE ${workspaceId}`);
+
+    switch (workspaceId) {
+      case 'buret_station':
+        this.scene.pause();
+        this.scene.launch('TitrationScene');
+        break;
+      default:
+        console.warn(`Workspace ID ${workspaceId} belum terintegrasi dengan scene.`);
+        break;
+    }
   }
 
   private handleOpenGlobalOverlay(overlayId: string): void {
