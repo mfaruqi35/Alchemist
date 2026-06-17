@@ -13,14 +13,18 @@ export default function GameCanvas() {
 
       const config: Phaser.Types.Core.GameConfig = {
         type: Phaser.AUTO,
-        width: 800,
-        height: 600,
+        width: 1497,
+        height: 1051,
         parent: containerRef.current,
+        scale: {
+          mode: Phaser.Scale.FIT,
+          autoCenter: Phaser.Scale.CENTER_BOTH,
+        },
         physics: {
           default: 'arcade', // Mengaktifkan sistem physics arcade untuk mendeteksi pergerakan dan tabrakan
           arcade: {
             gravity: { x: 0, y: 0 }, // Set 0 karena ini game top-down (tidak ada gravitasi jatuh)
-            debug: false,
+            debug: true,
           },
         },
         scene: [MainScene],
@@ -44,7 +48,15 @@ export default function GameCanvas() {
   return (
     <div
       ref={containerRef}
-      style={{ width: '800px', height: '600px', backgroundColor: '#000000' }}
+      style={{
+        width: '100vw',
+        height: '100vh',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        backgroundColor: '#000000',
+        overflow: 'hidden',
+      }}
     />
   );
 }
