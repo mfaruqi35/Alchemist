@@ -6,7 +6,7 @@ import NavLayout from '@/core/layouts/nav.layout';
 export default function ContainerTest() {
   return (
     <NavLayout>
-      <main className="w-full min-h-screen bg-background relative flex flex-col">
+      <main className="w-full min-h-screen bg-background relative ">
         <TestSection />
       </main>
     </NavLayout>

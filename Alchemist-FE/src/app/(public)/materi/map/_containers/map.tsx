@@ -1,14 +1,15 @@
 'use client';
 
-import MapSection from '@/components/page/public/materi/map-section';
-import NavLayout from '@/core/layouts/nav.layout';
+import dynamic from 'next/dynamic';
+
+const GameCanvas = dynamic(() => import('@/components/canvas/GameCanvas'), {
+  ssr: false,
+});
 
 export default function ContainerMap() {
   return (
-    <NavLayout>
-      <main className="w-full min-h-screen bg-background relative flex flex-col">
-        <MapSection />
-      </main>
-    </NavLayout>
+    <main className="w-full h-screen flex justify-center items-center bg-[#1a1a1a]">
+      <GameCanvas />
+    </main>
   );
 }

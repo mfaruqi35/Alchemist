@@ -1,12 +1,15 @@
 import Phaser from 'phaser';
+
 import Player from '../objects/Player';
 
 export default class MainScene extends Phaser.Scene {
   private interactKey!: Phaser.Input.Keyboard.Key;
   private notebookKey!: Phaser.Input.Keyboard.Key;
   private inventoryKey!: Phaser.Input.Keyboard.Key;
-  private interactPrompt!: Phaser.GameObjects.Text;
   private activeWorkspaceId: string | null = null;
+  private interactPromptText: string | null = null;
+  private currentPromptText: string | null = null;
+  private workspaces: { zone: Phaser.GameObjects.Zone, data: any }[] = [];
   private player!: Player;
 
   constructor() {
@@ -87,17 +90,7 @@ export default class MainScene extends Phaser.Scene {
       this.inventoryKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
     }
 
-    this.interactPrompt = this.add.text(width / 2, height / 2, 'Tekan E untuk mulai eksperimen', {
-      fontFamily: 'Arial',
-      fontSize: '24px',
-      color: '#ffffff',
-      backgroundColor: '#000000',
-      padding: { x: 10, y: 5 },
-    });
 
-    this.interactPrompt.setOrigin(0.5);
-    this.interactPrompt.setScrollFactor(0);
-    this.interactPrompt.setVisible(false);
 
     const workspaceData = [
       { id: 'buret_station', name: 'Meja Titrasi Buret', x: 745, y: 575, w: 650, h: 260 },
@@ -107,22 +100,10 @@ export default class MainScene extends Phaser.Scene {
       { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
     ];
 
-    workspaceData.forEach((data) => {
+    this.workspaces = workspaceData.map((data) => {
       const zone = this.add.zone(data.x, data.y, data.w, data.h);
       this.physics.add.existing(zone, true);
-
-      this.physics.add.overlap(
-        this.player,
-        zone,
-        () => {
-          this.activeWorkspaceId = data.id;
-
-          this.interactPrompt.setText(`Tekan E untuk menggunakan ${data.name}`);
-          this.interactPrompt.setVisible(true);
-        },
-        undefined,
-        this
-      );
+      return { zone, data };
     });
   }
 
@@ -141,14 +122,36 @@ export default class MainScene extends Phaser.Scene {
       return;
     }
 
-    if (this.activeWorkspaceId !== null) {
-      if (Phaser.Input.Keyboard.JustDown(this.interactKey)) {
-        this.handleTransitionWorkspace(this.activeWorkspaceId);
-      }
+    let isOverlapping = false;
+    let overlappingId = null;
+    let overlappingName = null;
 
-      this.activeWorkspaceId = null;
+    for (const ws of this.workspaces) {
+      if (this.physics.overlap(this.player, ws.zone)) {
+        isOverlapping = true;
+        overlappingId = ws.data.id;
+        overlappingName = ws.data.name;
+        break;
+      }
+    }
+
+    if (isOverlapping) {
+      this.activeWorkspaceId = overlappingId;
+      this.interactPromptText = `Tekan E untuk menggunakan ${overlappingName}`;
+
+      if (Phaser.Input.Keyboard.JustDown(this.interactKey)) {
+        this.handleTransitionWorkspace(this.activeWorkspaceId!);
+      }
     } else {
-      this.interactPrompt.setVisible(false);
+      this.activeWorkspaceId = null;
+      this.interactPromptText = null;
+    }
+
+    if (this.currentPromptText !== this.interactPromptText) {
+      this.currentPromptText = this.interactPromptText;
+      window.dispatchEvent(
+        new CustomEvent('interact-prompt', { detail: this.currentPromptText })
+      );
     }
   }
 
