@@ -1,16 +1,12 @@
 import Phaser from 'phaser';
-
-interface WASDKeys {
-  W: Phaser.Input.Keyboard.Key;
-  A: Phaser.Input.Keyboard.Key;
-  S: Phaser.Input.Keyboard.Key;
-  D: Phaser.Input.Keyboard.Key;
-}
+import Player from '../objects/Player';
 
 export default class MainScene extends Phaser.Scene {
-  private player!: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
-  private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-  private wasdKeys!: WASDKeys;
+  private interactKey!: Phaser.Input.Keyboard.Key;
+  private interactPrompt!: Phaser.GameObjects.Text;
+  private activeWorkspaceId: string | null = null;
+  private isNearWorkspace: boolean = false;
+  private player!: Player;
 
   constructor() {
     super('MainScene');
@@ -22,7 +18,7 @@ export default class MainScene extends Phaser.Scene {
 
     // Character
     this.load.image('player_front', '/player/apd/apd_front.webp');
-    this.load.image('player_back', '/player/apd/apd_back.webp');
+    this.load.image('player_back', '/player/apd/apd_backward.webp');
     this.load.image('player_right', '/player/apd/apd_right.webp');
     this.load.image('player_left', '/player/apd/apd_left.webp');
   }
@@ -36,22 +32,8 @@ export default class MainScene extends Phaser.Scene {
     const scaleY = height / bg.height;
     bg.setScale(scaleY);
 
-    this.player = this.physics.add.sprite(222, 320, 'player_front');
-    this.player.setDisplaySize(250, 300);
-    this.player.body.setSize(250, 350);
-    this.player.body.setOffset(250, 330);
-    this.player.setCollideWorldBounds(true);
-
-    if (this.input.keyboard) {
-      this.cursors = this.input.keyboard.createCursorKeys();
-
-      this.wasdKeys = this.input.keyboard.addKeys({
-        W: Phaser.Input.Keyboard.KeyCodes.W,
-        A: Phaser.Input.Keyboard.KeyCodes.A,
-        S: Phaser.Input.Keyboard.KeyCodes.S,
-        D: Phaser.Input.Keyboard.KeyCodes.D,
-      }) as WASDKeys;
-    }
+    // Instansiasi player menggunakan class baru
+    this.player = new Player(this, 222, 320);
 
     const obstacles = this.physics.add.staticGroup();
 
@@ -96,69 +78,69 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.existing(analyzeTable, true);
     obstacles.add(analyzeTable);
 
-    // const chair = this.add.zone(911, 784, 120, 120);
-    // this.physics.add.existing(chair, true);
-    // obstacles.add(chair);
-
     this.physics.add.collider(this.player, obstacles);
-    // Buat visual kotak yang terlihat jelas (berwarna hijau transparan)
-    // const testBox = this.add.rectangle(747, 587, 100, 100, 0x00ff00, 0.4);
 
-    // Aktifkan sistem physics statis
-    // this.physics.add.existing(testBox, true);
+    if (this.input.keyboard) {
+      this.interactKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+    }
 
-    // Buat kotak bisa digeser dengan mouse
-    // testBox.setInteractive({ draggable: true });
+    this.interactPrompt = this.add.text(width / 2, height / 2, 'Tekan E untuk mulai eksperimen', {
+      fontFamily: 'Arial',
+      fontSize: '24px',
+      color: '#ffffff',
+      backgroundColor: '#000000',
+      padding: { x: 10, y: 5 },
+    });
 
-    // this.input.on(
-    //   'drag',
-    //   (
-    //     pointer: Phaser.Input.Pointer,
-    //     gameObject: Phaser.GameObjects.GameObject,
-    //     dragX: number,
-    //     dragY: number
-    //   ) => {
-    //     if (gameObject instanceof Phaser.GameObjects.Rectangle) {
-    //       gameObject.x = dragX;
-    //       gameObject.y = dragY;
+    this.interactPrompt.setOrigin(0.5);
+    this.interactPrompt.setScrollFactor(0);
+    this.interactPrompt.setVisible(false);
 
-    //       // Perbarui posisi physics body agar pembatas ikut bergeser saat digeret
-    //       if (gameObject.body) {
-    //         (gameObject.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject();
-    //       }
+    const workspaceData = [
+      { id: 'buret_station', name: 'Meja Titrasi Buret', x: 745, y: 575, w: 650, h: 260 },
+      { id: 'ph_meter_station', name: 'Meja Pengukuran pH', x: 200, y: 800, w: 150, h: 150 },
+      { id: 'neraca_analitik', name: 'Meja Timbangan Digital', x: 747, y: 980, w: 200, h: 150 },
+      { id: 'apd', name: 'Alat Pelindung Diri', x: 430, y: 200, w: 220, h: 200 },
+      { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
+    ];
 
-    //       // Cetak posisi final di konsol untuk disalin ke kode asli
-    //       console.log(`Posisi Baru Kotak -> X: ${Math.round(dragX)}, Y: ${Math.round(dragY)}`);
-    //     }
-    //   }
-    // );
+    workspaceData.forEach((data) => {
+      const zone = this.add.zone(data.x, data.y, data.w, data.h);
+      this.physics.add.existing(zone, true);
 
-    // Masukkan ke grup obstacles Anda agar bisa ditabrak player saat uji coba pas atau tidaknya
-    // obstacles.add(testBox);
+      this.physics.add.overlap(
+        this.player,
+        zone,
+        () => {
+          this.activeWorkspaceId = data.id;
+
+          this.interactPrompt.setText(`Tekan E untuk menggunakan ${data.name}`);
+          this.interactPrompt.setVisible(true);
+        },
+        undefined,
+        this
+      );
+    });
   }
 
   update(): void {
-    if (!this.player || !this.cursors) return;
+    if (!this.player) return;
 
-    const speed = 250;
-    this.player.setVelocity(0);
+    // Jalankan loop update milik player untuk mendeteksi pergerakan tombol
+    this.player.update();
 
-    if (this.cursors.left?.isDown || this.wasdKeys.A.isDown) {
-      // Bergerak Kiri
-      this.player.setVelocityX(-speed);
-      this.player.setTexture('player_left');
-    } else if (this.cursors.right?.isDown || this.wasdKeys.D.isDown) {
-      // Bergerak Kanan
-      this.player.setVelocityX(speed);
-      this.player.setTexture('player_right');
-    } else if (this.cursors.up?.isDown || this.wasdKeys.W.isDown) {
-      // Bergerak Atas
-      this.player.setVelocityY(-speed);
-      this.player.setTexture('player_back');
-    } else if (this.cursors.down?.isDown || this.wasdKeys.S.isDown) {
-      // Bergerak Bawah
-      this.player.setVelocityY(speed);
-      this.player.setTexture('player_front');
+    if (this.activeWorkspaceId !== null) {
+      if (Phaser.Input.Keyboard.JustDown(this.interactKey)) {
+        this.handleTransitionWorkspace(this.activeWorkspaceId);
+      }
+
+      this.activeWorkspaceId = null;
+    } else {
+      this.interactPrompt.setVisible(false);
     }
+  }
+
+  private handleTransitionWorkspace(workspaceId: string): void {
+    console.log(`Transisi ke WORKSPACE ${workspaceId}`);
   }
 }
