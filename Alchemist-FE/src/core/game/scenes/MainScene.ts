@@ -21,18 +21,10 @@ export default class MainScene extends Phaser.Scene {
     this.load.image('lab_background', '/images/Maps.webp');
 
     // Character
-    const textures = this.textures;
-    if (!textures.exists('player_placeholder')) {
-      const canvas = document.createElement('canvas');
-      canvas.width = 32;
-      canvas.height = 48;
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.fillStyle = '#ff0000';
-        ctx.fillRect(0, 0, 32, 48);
-        textures.addCanvas('player_placeholder', canvas);
-      }
-    }
+    this.load.image('player_front', '/player/apd/apd_front.webp');
+    this.load.image('player_back', '/player/apd/apd_back.webp');
+    this.load.image('player_right', '/player/apd/apd_right.webp');
+    this.load.image('player_left', '/player/apd/apd_left.webp');
   }
 
   create(): void {
@@ -44,7 +36,10 @@ export default class MainScene extends Phaser.Scene {
     const scaleY = height / bg.height;
     bg.setScale(scaleY);
 
-    this.player = this.physics.add.sprite(400, 300, 'player_placeholder');
+    this.player = this.physics.add.sprite(222, 320, 'player_front');
+    this.player.setDisplaySize(250, 300);
+    this.player.body.setSize(250, 350);
+    this.player.body.setOffset(250, 330);
     this.player.setCollideWorldBounds(true);
 
     if (this.input.keyboard) {
@@ -61,7 +56,7 @@ export default class MainScene extends Phaser.Scene {
     const obstacles = this.physics.add.staticGroup();
 
     // Obstacles
-    const centerTable = this.add.zone(747, 587, 600, 270);
+    const centerTable = this.add.zone(745, 575, 600, 250);
     this.physics.add.existing(centerTable, true);
     obstacles.add(centerTable);
 
@@ -101,68 +96,69 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.existing(analyzeTable, true);
     obstacles.add(analyzeTable);
 
-    const chair = this.add.zone(911, 784, 120, 120);
-    this.physics.add.existing(chair, true);
-    obstacles.add(chair);
+    // const chair = this.add.zone(911, 784, 120, 120);
+    // this.physics.add.existing(chair, true);
+    // obstacles.add(chair);
 
     this.physics.add.collider(this.player, obstacles);
     // Buat visual kotak yang terlihat jelas (berwarna hijau transparan)
-    const testBox = this.add.rectangle(305, 1016, 420, 20, 0x00ff00, 0.4);
+    // const testBox = this.add.rectangle(747, 587, 100, 100, 0x00ff00, 0.4);
 
     // Aktifkan sistem physics statis
-    this.physics.add.existing(testBox, true);
+    // this.physics.add.existing(testBox, true);
 
     // Buat kotak bisa digeser dengan mouse
-    testBox.setInteractive({ draggable: true });
+    // testBox.setInteractive({ draggable: true });
 
-    this.input.on(
-      'drag',
-      (
-        pointer: Phaser.Input.Pointer,
-        gameObject: Phaser.GameObjects.GameObject,
-        dragX: number,
-        dragY: number
-      ) => {
-        if (gameObject instanceof Phaser.GameObjects.Rectangle) {
-          gameObject.x = dragX;
-          gameObject.y = dragY;
+    // this.input.on(
+    //   'drag',
+    //   (
+    //     pointer: Phaser.Input.Pointer,
+    //     gameObject: Phaser.GameObjects.GameObject,
+    //     dragX: number,
+    //     dragY: number
+    //   ) => {
+    //     if (gameObject instanceof Phaser.GameObjects.Rectangle) {
+    //       gameObject.x = dragX;
+    //       gameObject.y = dragY;
 
-          // Perbarui posisi physics body agar pembatas ikut bergeser saat digeret
-          if (gameObject.body) {
-            (gameObject.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject();
-          }
+    //       // Perbarui posisi physics body agar pembatas ikut bergeser saat digeret
+    //       if (gameObject.body) {
+    //         (gameObject.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject();
+    //       }
 
-          // Cetak posisi final di konsol untuk disalin ke kode asli
-          console.log(`Posisi Baru Kotak -> X: ${Math.round(dragX)}, Y: ${Math.round(dragY)}`);
-        }
-      }
-    );
+    //       // Cetak posisi final di konsol untuk disalin ke kode asli
+    //       console.log(`Posisi Baru Kotak -> X: ${Math.round(dragX)}, Y: ${Math.round(dragY)}`);
+    //     }
+    //   }
+    // );
 
     // Masukkan ke grup obstacles Anda agar bisa ditabrak player saat uji coba pas atau tidaknya
-    obstacles.add(testBox);
+    // obstacles.add(testBox);
   }
 
   update(): void {
     if (!this.player || !this.cursors) return;
 
     const speed = 250;
-
     this.player.setVelocity(0);
 
     if (this.cursors.left?.isDown || this.wasdKeys.A.isDown) {
+      // Bergerak Kiri
       this.player.setVelocityX(-speed);
+      this.player.setTexture('player_left');
     } else if (this.cursors.right?.isDown || this.wasdKeys.D.isDown) {
+      // Bergerak Kanan
       this.player.setVelocityX(speed);
-    }
-
-    if (this.cursors.up?.isDown || this.wasdKeys.W.isDown) {
+      this.player.setTexture('player_right');
+    } else if (this.cursors.up?.isDown || this.wasdKeys.W.isDown) {
+      // Bergerak Atas
       this.player.setVelocityY(-speed);
+      this.player.setTexture('player_back');
     } else if (this.cursors.down?.isDown || this.wasdKeys.S.isDown) {
+      // Bergerak Bawah
       this.player.setVelocityY(speed);
-    }
-
-    if (this.player.body) {
-      this.player.body.velocity.normalize().scale(speed);
+      this.player.setTexture('player_front');
     }
   }
 }
