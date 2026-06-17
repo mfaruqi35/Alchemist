@@ -31,7 +31,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       pathname?.startsWith('/register') ||
       pathname?.startsWith('/home') ||
       pathname?.startsWith('/menu') ||
-      pathname?.startsWith('/materi');
+      pathname?.startsWith('/materi') ||
+      pathname?.startsWith('/debug-game');
 
     const isAuthenticated = Boolean(currentUser?.user?.token);
 
