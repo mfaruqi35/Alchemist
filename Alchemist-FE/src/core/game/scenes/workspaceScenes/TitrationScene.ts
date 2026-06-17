@@ -1,67 +1,145 @@
 import Phaser from 'phaser';
 
 export default class TitrationScene extends Phaser.Scene {
+  private qteBg!: Phaser.GameObjects.Image;
+  private qteTarget!: Phaser.GameObjects.Image;
+  private qteIndicator!: Phaser.GameObjects.Image;
+
+  private isTitrasiActive: boolean = false;
+  private volumeBuret: number = 50.0;
+  private volumeTetesan: number = 0.0;
+  private targetVolume: number = 25.0;
+  private lajuIndikatorQTE: number = 4;
+  private arahIndikatorQTE: number = 1;
+
+  private volumeText!: Phaser.GameObjects.Text;
+  private statusText!: Phaser.GameObjects.Text;
+
+  private cairanBuret!: Phaser.GameObjects.Rectangle;
+
+  private qteKey!: Phaser.Input.Keyboard.Key;
+
+  private cairanErlenmeyer!: Phaser.GameObjects.Graphics;
+
+  // Simpan koordinat Erlenmeyer secara global di kelas agar sinkron saat update grafik
+  private erlenmeyerX: number = 0;
+  private erlenmeyerY: number = 0;
+  private skalaErlenmeyerGlobal: number = 0.3;
+
   constructor() {
     super('TitrationScene');
   }
+
   preload(): void {
-    // Layer 1: background
-
     this.load.image('scene_background', 'images/titrationWorkspace.webp');
-
     this.load.image('statif', '/images/statif.webp');
-    this.load.image('erlenmayer', '/images/erlenmayer.webp');
+    this.load.image('erlenmeyer3', '/images/erlenmeyer3.webp');
     this.load.image('buret', '/images/buret.webp');
+    this.load.image('qte_bg', '/images/qte_bar.webp');
+    this.load.image('qte_target', '/images/qte_target.webp');
+    this.load.image('qte_indicator', '/images/qte_indicator.webp');
   }
 
   create(): void {
     const width = this.scale.width;
     const height = this.scale.height;
 
-    // titik tengah layar sebagai acuan utama
     const centerX = width / 2;
     const centerY = height / 2;
+
+    const qteX = centerX + 350;
+    const qteY = centerY;
 
     // Layer 1: Background
     this.add.rectangle(0, 0, width, height, 0x000000, 0.8).setOrigin(0, 0);
     this.add.image(centerX, centerY, 'scene_background');
 
-    // ==========================================
-    // KONFIGURASI SKALA (Ganti angka ini untuk memperkecil/memperbesar)
-    // ==========================================
-    const skalaAlat = 0.48; // Mengurangi ukuran menjadi 50% dari ukuran asli AI
-    const skalaErlenmayer = 0.2;
+    const skalaAlat = 0.6;
+    this.skalaErlenmeyerGlobal = 0.3;
 
-    // LAYERING 2: Cairan Placeholder (Akan otomatis berada di belakang Erlenmeyer)
-    // Posisinya disesuaikan agar pas di dalam dasar perut erlenmeyer
-    const cairanPlaceholder = this.add.rectangle(
-      centerX + 30,
-      centerY + 340,
-      140 * skalaAlat,
-      180 * skalaAlat,
-      0xffffff,
-      0.6
+    // Inisialisasi UI QTE
+    this.qteBg = this.add.image(qteX, qteY, 'qte_bg').setScale(skalaAlat);
+    this.qteTarget = this.add.image(qteX, qteY + 60, 'qte_target').setScale(skalaAlat);
+    this.qteIndicator = this.add.image(qteX, qteY - 150, 'qte_indicator').setScale(skalaAlat);
+
+    this.setQTEVisibility(false);
+
+    this.volumeText = this.add.text(
+      50,
+      150,
+      `Volume Netralisasi: 0.0 mL / ${this.targetVolume} mL`,
+      {
+        fontFamily: 'Arial',
+        fontSize: '20px',
+        color: '#ffff00',
+      }
     );
 
-    // LAYERING 3: Susunan Alat Kimia
-    // 1. Statif (Digeser agak ke kiri dari buret dan dibalik horizontal agar klem menghadap kanan)
-    const statif = this.add.image(centerX - 10, centerY - 50, 'statif');
+    this.statusText = this.add.text(
+      50,
+      190,
+      'Status: Keran Tertutup. Klik Stopcock untuk membuka.',
+      {
+        fontFamily: 'Arial',
+        fontSize: '18px',
+        color: '#ffffff',
+      }
+    );
+
+    if (this.input.keyboard) {
+      this.qteKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    }
+
+    // Sensor Utama Stopcock Keran Buret
+    const keranSensor = this.add.zone(centerX + 30, centerY - 55, 60, 60);
+    keranSensor.setInteractive({ useHandCursor: true });
+
+    keranSensor.on('pointerdown', () => {
+      this.isTitrasiActive = !this.isTitrasiActive;
+
+      if (this.isTitrasiActive) {
+        this.statusText.setText('Status: Keran Terbuka! Tekan SPASI tepat di zona hijau!');
+        this.statusText.setColor('#00ff00');
+        this.setQTEVisibility(true);
+      } else {
+        this.statusText.setText('Status: Keran Ditutup. Klik kembali untuk melanjutkan.');
+        this.statusText.setColor('#ffffff');
+        this.setQTEVisibility(false);
+      }
+    });
+
+    const statif = this.add.image(centerX - 10, centerY - 100, 'statif');
     statif.setScale(skalaAlat);
-    statif.setFlipX(true);
 
-    // 2. Erlenmeyer (Diletakkan di bagian paling bawah meja)
+    // Set koordinat dasar Erlenmeyer untuk masking cairan
+    this.erlenmeyerX = centerX + 30;
+    this.erlenmeyerY = centerY + 180;
 
-    const buret = this.add.image(centerX - 40, centerY - 188, 'buret');
+    // Cairan Erlenmeyer digambar di belakang glass asset
+    this.cairanErlenmeyer = this.add.graphics();
+    this.updateCairanErlenmeyer(this.erlenmeyerX, this.erlenmeyerY, this.skalaErlenmeyerGlobal);
+
+    const buret = this.add.image(centerX + 30, centerY - 250, 'buret');
     buret.setScale(skalaAlat);
-    buret.setFlipX(true);
 
-    const erlenmeyer = this.add.image(centerX - 40, centerY + 180, 'erlenmayer');
-    erlenmeyer.setScale(skalaErlenmayer);
-    // 3. Buret (Diletakkan menggantung di atas erlenmeyer, menempel pada klem statif)
+    const erlenmeyer = this.add.image(this.erlenmeyerX, this.erlenmeyerY, 'erlenmeyer3');
+    erlenmeyer.setScale(this.skalaErlenmeyerGlobal);
 
-    // ==========================================
-    // TEKS HUD & INPUT ESCAPE
-    // ==========================================
+    const batasAtasBuretY = 87;
+    const posisiKeranY = centerY - 55;
+    const tinggiMaksCairan = posisiKeranY - batasAtasBuretY;
+
+    // Hubungkan langsung ke properti kelas, bukan variabel lokal
+    this.cairanBuret = this.add.rectangle(
+      centerX + 32,
+      batasAtasBuretY,
+      24 * skalaAlat,
+      tinggiMaksCairan,
+      0xadd8e6,
+      0.8
+    );
+    this.cairanBuret.setOrigin(0.5, 0);
+
     this.add.text(50, 50, 'SIMULASI TITRASI ASAM-BASA', {
       fontFamily: 'Arial',
       fontSize: '28px',
@@ -77,14 +155,130 @@ export default class TitrationScene extends Phaser.Scene {
     this.setupEscKey();
   }
 
+  update(): void {
+    if (!this.isTitrasiActive) return;
+
+    const batasAtasBar = this.qteBg.y - this.qteBg.displayHeight / 2 + 10;
+    const batasBawahBar = this.qteBg.y + this.qteBg.displayHeight / 2 - 10;
+
+    this.qteIndicator.y += this.lajuIndikatorQTE * this.arahIndikatorQTE;
+
+    if (this.qteIndicator.y >= batasBawahBar) {
+      this.arahIndikatorQTE = -1;
+    } else if (this.qteIndicator.y <= batasAtasBar) {
+      this.arahIndikatorQTE = 1;
+    }
+
+    if (Phaser.Input.Keyboard.JustDown(this.qteKey)) {
+      this.prosesTetesanTitrasi();
+    }
+  }
+
+  private setQTEVisibility(visible: boolean): void {
+    this.qteBg.setVisible(visible);
+    this.qteTarget.setVisible(visible);
+    this.qteIndicator.setVisible(visible);
+  }
+
+  private updateCairanErlenmeyer(x: number, y: number, skala: number): void {
+    this.cairanErlenmeyer.clear();
+
+    let warnaCairan = 0xffffff;
+    let alphaCairan = 0.5;
+
+    if (this.volumeTetesan >= 24.8 && this.volumeTetesan <= 25.2) {
+      warnaCairan = 0xffb6c1;
+      alphaCairan = 0.7;
+    } else if (this.volumeTetesan > 25.2) {
+      warnaCairan = 0xff00ff;
+      alphaCairan = 0.9;
+    }
+
+    this.cairanErlenmeyer.fillStyle(warnaCairan, alphaCairan);
+
+    const dasarLebar = 300 * skala;
+    const atasLebar = 90 * skala;
+    const tinggiDasarAwal = 70 * skala;
+
+    const tambahanTinggiPiksel = this.volumeTetesan * 4 * skala;
+    const tinggiCairanMaksimal = tinggiDasarAwal + tambahanTinggiPiksel;
+
+    const offsetSudut = 20 * skala;
+    const bottomY = y + 90 * skala;
+    const topY = bottomY - tinggiCairanMaksimal;
+
+    const kiriBawahX = x - dasarLebar / 2;
+    const kananBawahX = x + dasarLebar / 2;
+    const kananAtasX = x + atasLebar / 2;
+    const kiriAtasX = x - atasLebar / 2;
+
+    this.cairanErlenmeyer.beginPath();
+    this.cairanErlenmeyer.moveTo(kiriAtasX, topY);
+    this.cairanErlenmeyer.lineTo(kananAtasX, topY);
+    this.cairanErlenmeyer.lineTo(kananBawahX - offsetSudut, bottomY - offsetSudut);
+    this.cairanErlenmeyer.lineTo(kananBawahX - offsetSudut * 2, bottomY);
+    this.cairanErlenmeyer.lineTo(kiriBawahX + offsetSudut * 2, bottomY);
+    this.cairanErlenmeyer.lineTo(kiriBawahX + offsetSudut, bottomY - offsetSudut);
+    this.cairanErlenmeyer.closePath();
+    this.cairanErlenmeyer.fillPath();
+  }
+
   private setupEscKey(): void {
     const escHandler = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         window.removeEventListener('keydown', escHandler);
-        this.scene.resume('MainScene'); // Berpindah scene kembali penuh
+        this.scene.resume('MainScene');
         this.scene.stop();
       }
     };
     window.addEventListener('keydown', escHandler);
+  }
+
+  private prosesTetesanTitrasi(): void {
+    const jarakHit = Math.abs(this.qteIndicator.y - this.qteTarget.y);
+    const toleransiHit = this.qteTarget.displayHeight / 2;
+
+    let volumeDitambahkan = 0;
+
+    if (jarakHit <= toleransiHit) {
+      if (this.volumeTetesan >= 22.0) {
+        volumeDitambahkan = 0.2;
+      } else {
+        volumeDitambahkan = 1.0;
+      }
+      this.flashStatusText('#00ff00', 'HIT SUKSES!');
+    } else {
+      volumeDitambahkan = 2.5;
+      this.flashStatusText('#ff0000', 'MISS! Cairan Tumpah Terlalu Banyak!');
+    }
+
+    this.volumeTetesan += volumeDitambahkan;
+    this.volumeBuret -= volumeDitambahkan;
+
+    const pikselPerMiliBuret = 4;
+    this.cairanBuret.y += volumeDitambahkan * pikselPerMiliBuret;
+    this.cairanBuret.height -= volumeDitambahkan * pikselPerMiliBuret;
+
+    this.volumeText.setText(
+      `Volume Netralisasi: ${this.volumeTetesan.toFixed(1)} mL / ${this.targetVolume} mL`
+    );
+
+    this.periksaPerubahanWarnaKimia();
+  }
+
+  private periksaPerubahanWarnaKimia(): void {
+    // Jalankan rekonstruksi gambar trapesium menggunakan properti kelas yang valid
+    this.updateCairanErlenmeyer(this.erlenmeyerX, this.erlenmeyerY, this.skalaErlenmeyerGlobal);
+
+    if (this.volumeTetesan >= 24.8 && this.volumeTetesan <= 25.2) {
+      this.statusText.setText('STATUS: TITIK AKHIR TERCAPAI! Segera tutup keran buret!');
+    } else if (this.volumeTetesan > 25.2) {
+      this.statusText.setText('STATUS: OVER-TITRATION! Larutan terlalu basa (Gagal).');
+    }
+  }
+
+  private flashStatusText(warnaHex: string, pesan: string): void {
+    this.statusText.setColor(warnaHex);
+    this.statusText.setText(`Status: ${pesan}`);
   }
 }
