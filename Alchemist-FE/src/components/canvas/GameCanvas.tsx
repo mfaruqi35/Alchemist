@@ -3,23 +3,44 @@
 import { useEffect, useRef, useState } from 'react';
 
 import MainScene from '@/core/game/scenes/MainScene';
-import TitrationScene from '@/core/game/scenes/workspaceScenes/TitrationScene';
-import NotebookScene from '@/core/game/scenes/overlayScenes/NotebookScene';
+import CalculatorScene from '@/core/game/scenes/overlayScenes/CalculatorScene';
 import InventoryScene from '@/core/game/scenes/overlayScenes/InventoryScene'; // Impor di sini
+import NotebookScene from '@/core/game/scenes/overlayScenes/NotebookScene';
+import AnalyzeTableScene from '@/core/game/scenes/workspaceScenes/AnalyzeTableScene';
+import DisposalScene from '@/core/game/scenes/workspaceScenes/DisposalScene';
+import TitrationScene from '@/core/game/scenes/workspaceScenes/TitrationScene';
+import { useAlert } from '@/hooks/useAlert/costum-alert';
+import StorageScene from '@/core/game/scenes/workspaceScenes/StorageScene';
 
 export default function GameCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const gameRef = useRef<Phaser.Game | null>(null);
   const [promptText, setPromptText] = useState<string | null>(null);
+  const { toast: toastAlert } = useAlert();
 
   useEffect(() => {
     const handlePrompt = (e: Event) => {
       const customEvent = e as CustomEvent<string | null>;
       setPromptText(customEvent.detail);
     };
+
+    const handleAlert = (e: Event) => {
+      const customEvent = e as CustomEvent<{
+        message: string;
+        title: string;
+        icon?: 'success' | 'error' | 'warning' | 'info';
+      }>;
+      toastAlert(customEvent.detail);
+    };
+
     window.addEventListener('interact-prompt', handlePrompt);
-    return () => window.removeEventListener('interact-prompt', handlePrompt);
-  }, []);
+    window.addEventListener('game-alert', handleAlert);
+
+    return () => {
+      window.removeEventListener('interact-prompt', handlePrompt);
+      window.removeEventListener('game-alert', handleAlert);
+    };
+  }, [toastAlert]);
 
   useEffect(() => {
     async function initPhaser() {
@@ -41,7 +62,16 @@ export default function GameCanvas() {
             debug: true,
           },
         },
-        scene: [MainScene, NotebookScene, InventoryScene, TitrationScene],
+        scene: [
+          MainScene,
+          NotebookScene,
+          InventoryScene,
+          TitrationScene,
+          AnalyzeTableScene,
+          CalculatorScene,
+          DisposalScene,
+          StorageScene,
+        ],
       };
 
       if (!gameRef.current && containerRef.current) {

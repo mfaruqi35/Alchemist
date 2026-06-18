@@ -1,10 +1,10 @@
 # Alchemist-FE (Next.js + Shadcn UI)
 
-Ini adalah repositori antarmuka (frontend) untuk proyek **Alchemist**. Proyek ini dibangun menggunakan arsitektur modern berbasis **Next.js** dan menggunakan **npm** sebagai *package manager* utama.
+Ini adalah repositori antarmuka (frontend) untuk proyek **Alchemist**. Proyek ini dibangun menggunakan arsitektur modern berbasis **Next.js** dan menggunakan **npm** sebagai _package manager_ utama.
 
 ## 🚀 Teknologi Utama
 
-Proyek ini menggunakan berbagai teknologi modern dan pustaka (*libraries*) berikut:
+Proyek ini menggunakan berbagai teknologi modern dan pustaka (_libraries_) berikut:
 
 - **Framework**: [Next.js](https://nextjs.org/) (React Framework)
 - **Package Manager**: npm
@@ -23,6 +23,7 @@ Proyek ini menggunakan berbagai teknologi modern dan pustaka (*libraries*) berik
 Sebelum menjalankan proyek ini, pastikan Anda telah menginstal **Node.js** dan **npm** di sistem Anda.
 
 Anda dapat memverifikasi instalasi dengan menjalankan:
+
 ```bash
 node -v
 npm -v
@@ -32,22 +33,28 @@ npm -v
 
 ## 💻 Cara Menjalankan Proyek Secara Lokal
 
-Ikuti langkah-langkah di bawah ini untuk menjalankan *development server* di komputer Anda:
+Ikuti langkah-langkah di bawah ini untuk menjalankan _development server_ di komputer Anda:
 
 ### 1. Kloning Repositori & Masuk ke Direktori
+
 Pastikan Anda sudah berada di dalam folder proyek:
+
 ```bash
 cd Alchemist-FE
 ```
 
 ### 2. Instalasi Dependensi (Dependencies)
+
 Gunakan npm untuk menginstal semua paket yang dibutuhkan:
+
 ```bash
 npm install
 ```
 
 ### 3. Menjalankan Development Server
+
 Mulai server untuk tahap pengembangan:
+
 ```bash
 npm run dev
 ```
@@ -58,7 +65,7 @@ Buka [http://localhost:3000](http://localhost:3000) di browser Anda untuk meliha
 
 ## 📦 Build untuk Produksi (Production)
 
-Untuk melakukan *build* aplikasi ke versi produksi yang telah dioptimasi, jalankan perintah berikut:
+Untuk melakukan _build_ aplikasi ke versi produksi yang telah dioptimasi, jalankan perintah berikut:
 
 ```bash
 # 1. Build aplikasi
@@ -93,8 +100,8 @@ Proyek ini dilengkapi dengan alat untuk memastikan kualitas kode agar tetap kons
 
 - `src/`: Berisi semua kode sumber aplikasi (komponen, halaman, state, API hook, tipe data, konfigurasi aplikasi).
 - `public/`: Aset statis seperti gambar, font, dan ikon yang dapat diakses langsung oleh browser.
-- `.env`: Variabel environment (harus disiapkan untuk URL API atau pengaturan *secret* lainnya).
+- `.env`: Variabel environment (harus disiapkan untuk URL API atau pengaturan _secret_ lainnya).
 
 ---
 
-Terima kasih! Jangan ragu untuk membuat *issue* atau bertanya kepada tim jika ada kendala saat proses integrasi maupun saat menjalankan proyek ini.
+Terima kasih! Jangan ragu untuk membuat _issue_ atau bertanya kepada tim jika ada kendala saat proses integrasi maupun saat menjalankan proyek ini.
