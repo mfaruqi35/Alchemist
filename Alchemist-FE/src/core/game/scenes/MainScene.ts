@@ -4,7 +4,7 @@ import Player from '../objects/Player';
 
 export default class MainScene extends Phaser.Scene {
   private interactKey!: Phaser.Input.Keyboard.Key;
-  private notebookKey!: Phaser.Input.Keyboard.Key;
+  private questKey!: Phaser.Input.Keyboard.Key;
   private inventoryKey!: Phaser.Input.Keyboard.Key;
   private activeWorkspaceId: string | null = null;
   private interactPromptText: string | null = null;
@@ -19,7 +19,7 @@ export default class MainScene extends Phaser.Scene {
 
   preload(): void {
     // Map
-    this.load.image('lab_background', '/images/map3.webp');
+    this.load.image('lab_background', '/images/map4.webp');
 
     // Character
     this.load.image('player_front', '/player/apd/apd_front.webp');
@@ -28,7 +28,7 @@ export default class MainScene extends Phaser.Scene {
     this.load.image('player_left', '/player/apd/apd_left.webp');
 
     // UI
-    this.load.image('objective_border', '/images/borderbg.webp');
+    // this.load.image('objective_border', '/images/borderbg.webp');
   }
 
   create(): void {
@@ -52,6 +52,26 @@ export default class MainScene extends Phaser.Scene {
     this.dynamicInteractPrompt.setDepth(200);
 
     const bg = this.add.image(width / 2, height / 2, 'lab_background');
+    const objX = width - 550;
+    const objY = 125;
+
+    // const objectiveBorder = this.add.image(objX, objY, 'objective_border');
+    // objectiveBorder.setScale(0.55);
+    // objectiveBorder.setScrollFactor(0); // Fixed position on screen
+
+    const objectiveText = `Tentukan konsentrasi larutan NaOH yang tidak diketahui menggunakan larutan standar HCl 0,2 M sebanyak 25 mL.\n\nAlur:\n- Keselamatan lab: pakai APD\n- Storage: ambil HCl 0,2 M, larutan NaOH unknown, indikator fenolftalein, buret, erlenmeyer\n- Titrasi: isi buret dengan HCl, masukkan NaOH ke erlenmeyer, titrasi sampai warna berubah, catat volume HCl\n- Analysis: hitung konsentrasi NaOH dengan M1V1 = M2V2\n- Disposal: cek pH sisa larutan, buang ke kontainer yang sesuai`;
+
+    const objTextObj = this.add.text(objX, objY - 10, objectiveText, {
+      fontFamily: 'Roboto',
+      fontSize: '9px',
+      color: '#',
+      fontStyle: 'normal', // Tambahkan baris ini untuk membuat teks bold
+      wordWrap: { width: 400, useAdvancedWrap: true },
+      lineSpacing: 4,
+    });
+
+    objTextObj.setOrigin(0.5);
+    objTextObj.setScrollFactor(0);
 
     const scaleY = height / bg.height;
     bg.setScale(scaleY);
@@ -62,7 +82,7 @@ export default class MainScene extends Phaser.Scene {
     const obstacles = this.physics.add.staticGroup();
 
     // Obstacles
-    const centerTable = this.add.zone(690, 550, 590, 270);
+    const centerTable = this.add.zone(690, 555, 590, 290);
     this.physics.add.existing(centerTable, true);
     obstacles.add(centerTable);
 
@@ -100,32 +120,11 @@ export default class MainScene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, obstacles);
 
-
-    const objX = width - 550;
-    const objY = 125;
-
-    const objectiveBorder = this.add.image(objX, objY, 'objective_border');
-    objectiveBorder.setScale(0.55);
-    objectiveBorder.setScrollFactor(0); // Fixed position on screen
-
-    const objectiveText = `Tentukan konsentrasi larutan NaOH yang tidak diketahui menggunakan larutan standar HCl 0,2 M sebanyak 25 mL.\n\nAlur:\n- Keselamatan lab: pakai APD\n- Storage: ambil HCl 0,2 M, larutan NaOH unknown, indikator fenolftalein, buret, erlenmeyer\n- Titrasi: isi buret dengan HCl, masukkan NaOH ke erlenmeyer, titrasi sampai warna berubah, catat volume HCl\n- Analysis: hitung konsentrasi NaOH dengan M1V1 = M2V2\n- Disposal: cek pH sisa larutan, buang ke kontainer yang sesuai`;
-
-  const objTextObj = this.add.text(objX, objY - 10, objectiveText, {
-  fontFamily: 'Roboto',
-  fontSize: '11px',
-  color: '#',
-  fontStyle: 'normal', // Tambahkan baris ini untuk membuat teks bold
-  wordWrap: { width: 500, useAdvancedWrap: true },
-  lineSpacing: 4,
-});
-
-objTextObj.setOrigin(0.5);
-objTextObj.setScrollFactor(0);
     // -------------------
 
     if (this.input.keyboard) {
       this.interactKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-      this.notebookKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+      this.questKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
       this.inventoryKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
     }
 
@@ -155,9 +154,10 @@ objTextObj.setScrollFactor(0);
       { id: 'storage', name: 'Lemari', x: 110, y: 800, w: 150, h: 150 },
       { id: 'meja_analisis', name: 'Meja Analisis', x: 747, y: 980, w: 200, h: 150 },
       // { id: 'apd', name: 'Alat Pelindung Diri', x: 390, y: 200, w: 220, h: 200 },
-      { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
+      // { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
       { id: 'bins', name: 'Tong Sampah', x: 1413, y: 388, w: 180, h: 300 },
       { id: 'exit', name: 'Keluar', x: 120, y: 200, w: 180, h: 200 },
+      { id: 'quest', name: 'Quest', x: 900, y: 200, w: 180, h: 200 },
     ];
 
     this.workspaces = workspaceData.map((data) => {
@@ -172,8 +172,8 @@ objTextObj.setScrollFactor(0);
 
     this.player.update();
 
-    if (Phaser.Input.Keyboard.JustDown(this.notebookKey)) {
-      this.handleOpenGlobalOverlay('notebook');
+    if (Phaser.Input.Keyboard.JustDown(this.questKey)) {
+      this.handleOpenGlobalOverlay('quest');
       return;
     }
     if (Phaser.Input.Keyboard.JustDown(this.inventoryKey)) {
@@ -199,7 +199,9 @@ objTextObj.setScrollFactor(0);
     if (isOverlapping && overlappingWs) {
       this.activeWorkspaceId = overlappingId;
       if (overlappingId === 'exit') {
-        this.interactPromptText = 'Tekan E untuk Keluar';
+        this.interactPromptText = 'Tekan E untuk keluar';
+      } else if (overlappingId == 'quest') {
+        this.interactPromptText = 'Tekan E untuk melihat quest';
       } else {
         this.interactPromptText = `Tekan E untuk pakai\n${overlappingName}`;
       }
@@ -251,6 +253,10 @@ objTextObj.setScrollFactor(0);
       case 'exit':
         window.location.href = '/menu';
         break;
+      case 'quest':
+        this.scene.pause();
+        this.scene.launch('QuestScene');
+        break;
       default:
         console.warn(`Workspace ID ${workspaceId} belum terintegrasi dengan scene.`);
         break;
@@ -261,8 +267,8 @@ objTextObj.setScrollFactor(0);
     console.log(`Membuka Global Overly ${overlayId}`);
     this.scene.pause();
     switch (overlayId) {
-      case 'notebook':
-        this.scene.launch('NotebookScene');
+      case 'quest':
+        this.scene.launch('QuestScene');
         break;
       case 'inventory':
         this.scene.launch('InventoryScene'); // Membuka file InventoryScene.ts Anda

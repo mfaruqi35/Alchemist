@@ -10,6 +10,7 @@ import AnalyzeTableScene from '@/core/game/scenes/workspaceScenes/AnalyzeTableSc
 import DisposalScene from '@/core/game/scenes/workspaceScenes/DisposalScene';
 import StorageScene from '@/core/game/scenes/workspaceScenes/StorageScene';
 import TitrationScene from '@/core/game/scenes/workspaceScenes/TitrationScene';
+import QuestScene from '@/core/game/scenes/overlayScenes/QuestScene';
 import { useAlert } from '@/hooks/useAlert/costum-alert';
 
 export default function GameCanvas() {
@@ -66,6 +67,7 @@ export default function GameCanvas() {
           MainScene,
           NotebookScene,
           InventoryScene,
+          QuestScene,
           TitrationScene,
           AnalyzeTableScene,
           CalculatorScene,
