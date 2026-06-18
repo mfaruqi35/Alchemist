@@ -25,21 +25,25 @@ export default class CalculatorScene extends Phaser.Scene {
     const body = this.add.rectangle(cx, cy, calcWidth, calcHeight, 0x222222);
     body.setStrokeStyle(4, 0x555555);
 
-    this.add.text(cx, cy - 250, 'SCIENTIFIC CALCULATOR', {
-      fontFamily: 'Arial',
-      fontSize: '18px',
-      color: '#ffffff',
-      fontStyle: 'bold'
-    }).setOrigin(0.5);
+    this.add
+      .text(cx, cy - 250, 'SCIENTIFIC CALCULATOR', {
+        fontFamily: 'Arial',
+        fontSize: '18px',
+        color: '#ffffff',
+        fontStyle: 'bold',
+      })
+      .setOrigin(0.5);
 
     // Calculator Display
     this.add.rectangle(cx, cy - 180, calcWidth - 40, 80, 0x9eaba0);
-    this.display = this.add.text(cx + calcWidth / 2 - 30, cy - 180, '0', {
-      fontFamily: 'Courier New',
-      fontSize: '32px',
-      color: '#000000',
-      fontStyle: 'bold'
-    }).setOrigin(1, 0.5);
+    this.display = this.add
+      .text(cx + calcWidth / 2 - 30, cy - 180, '0', {
+        fontFamily: 'Courier New',
+        fontSize: '32px',
+        color: '#000000',
+        fontStyle: 'bold',
+      })
+      .setOrigin(1, 0.5);
 
     // Buttons Layout
     const btnLayout = [
@@ -48,7 +52,7 @@ export default class CalculatorScene extends Phaser.Scene {
       ['7', '8', '9', '/', '*'],
       ['4', '5', '6', '-', '+'],
       ['1', '2', '3', 'exp', '='],
-      ['0', '.', '00', 'ANS', '='] 
+      ['0', '.', '00', 'ANS', '='],
     ];
 
     const startX = cx - calcWidth / 2 + 50;
@@ -61,11 +65,18 @@ export default class CalculatorScene extends Phaser.Scene {
     btnLayout.forEach((row, i) => {
       row.forEach((label, j) => {
         if (label === '=') {
-           if (i === 4 && j === 4) {
-             // Big = button spanning two rows
-             this.createButton(startX + j * (btnW + gapX), startY + i * (btnH + gapY) + (btnH + gapY) / 2 - gapY / 2, btnW, btnH * 2 + gapY, label, 0x4caf50);
-           }
-           return;
+          if (i === 4 && j === 4) {
+            // Big = button spanning two rows
+            this.createButton(
+              startX + j * (btnW + gapX),
+              startY + i * (btnH + gapY) + (btnH + gapY) / 2 - gapY / 2,
+              btnW,
+              btnH * 2 + gapY,
+              label,
+              0x4caf50
+            );
+          }
+          return;
         }
 
         let color = 0x555555;
@@ -73,15 +84,25 @@ export default class CalculatorScene extends Phaser.Scene {
         else if (['/', '*', '-', '+', '^', 'sqrt'].includes(label)) color = 0xff9800;
         else if (['sin', 'cos', 'tan', 'exp', '(', ')', 'ANS'].includes(label)) color = 0x607d8b;
 
-        this.createButton(startX + j * (btnW + gapX), startY + i * (btnH + gapY), btnW, btnH, label, color);
+        this.createButton(
+          startX + j * (btnW + gapX),
+          startY + i * (btnH + gapY),
+          btnW,
+          btnH,
+          label,
+          color
+        );
       });
     });
 
-    const closeBtn = this.add.text(cx, cy + calcHeight / 2 + 30, '[ Tutup Kalkulator ]', {
-      fontFamily: 'Arial',
-      fontSize: '20px',
-      color: '#ff0000',
-    }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+    const closeBtn = this.add
+      .text(cx, cy + calcHeight / 2 + 30, '[ Tutup Kalkulator ]', {
+        fontFamily: 'Arial',
+        fontSize: '20px',
+        color: '#ff0000',
+      })
+      .setOrigin(0.5)
+      .setInteractive({ useHandCursor: true });
 
     closeBtn.on('pointerdown', () => this.closeMenu());
 
@@ -98,12 +119,14 @@ export default class CalculatorScene extends Phaser.Scene {
     btn.setStrokeStyle(2, 0x000000);
     btn.setInteractive({ useHandCursor: true });
 
-    const txt = this.add.text(x, y, label, {
-      fontFamily: 'Arial',
-      fontSize: label.length > 2 ? '14px' : '18px',
-      color: '#ffffff',
-      fontStyle: 'bold'
-    }).setOrigin(0.5);
+    const txt = this.add
+      .text(x, y, label, {
+        fontFamily: 'Arial',
+        fontSize: label.length > 2 ? '14px' : '18px',
+        color: '#ffffff',
+        fontStyle: 'bold',
+      })
+      .setOrigin(0.5);
 
     btn.on('pointerover', () => btn.setAlpha(0.8));
     btn.on('pointerout', () => btn.setAlpha(1));
@@ -129,11 +152,10 @@ export default class CalculatorScene extends Phaser.Scene {
           .replace(/exp\(/g, 'Math.exp(')
           .replace(/\^/g, '**')
           .replace(/ANS/g, '0');
-        
+
         // Ensure trigonometric functions have brackets added implicitly if user forgets, though eval is strict
         // To be safe, we just let eval throw if it's invalid
-        
-         
+
         const result = eval(expr);
         this.currentExpression = String(Number(result.toFixed(6)));
       } catch (e) {
@@ -141,7 +163,7 @@ export default class CalculatorScene extends Phaser.Scene {
       }
     } else {
       if (this.currentExpression === 'Error') this.currentExpression = '';
-      
+
       // Auto-add bracket for functions
       if (['sin', 'cos', 'tan', 'sqrt', 'exp'].includes(label)) {
         this.currentExpression += label + '(';
