@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState } from 'react';
 
 import MainScene from '@/core/game/scenes/MainScene';
-import InventoryScene from '@/core/game/scenes/overlayScenes/InventoryScene'; // Impor di sini
+import TitrationScene from '@/core/game/scenes/workspaceScenes/TitrationScene';
 import NotebookScene from '@/core/game/scenes/overlayScenes/NotebookScene';
+import InventoryScene from '@/core/game/scenes/overlayScenes/InventoryScene'; // Impor di sini
 
 export default function GameCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -40,7 +41,7 @@ export default function GameCanvas() {
             debug: true,
           },
         },
-        scene: [MainScene, NotebookScene, InventoryScene],
+        scene: [MainScene, NotebookScene, InventoryScene, TitrationScene],
       };
 
       if (!gameRef.current && containerRef.current) {
