@@ -100,9 +100,9 @@ export default class MainScene extends Phaser.Scene {
     this.interactPrompt.setVisible(false);
 
     const workspaceData = [
-      { id: 'buret_station', name: 'Meja Titrasi Buret', x: 745, y: 575, w: 650, h: 260 },
+      { id: 'buret_station', name: 'Meja Titrasi', x: 745, y: 575, w: 650, h: 260 },
       { id: 'storage', name: 'Lemari', x: 200, y: 800, w: 150, h: 150 },
-      { id: 'meja_analisis', name: 'Meja Timbangan Digital', x: 747, y: 980, w: 200, h: 150 },
+      { id: 'meja_analisis', name: 'Meja Analisis', x: 747, y: 980, w: 200, h: 150 },
       { id: 'apd', name: 'Alat Pelindung Diri', x: 430, y: 200, w: 220, h: 200 },
       { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
     ];
@@ -129,7 +129,6 @@ export default class MainScene extends Phaser.Scene {
   update(): void {
     if (!this.player) return;
 
-    // Jalankan loop update milik player untuk mendeteksi pergerakan tombol
     this.player.update();
 
     if (Phaser.Input.Keyboard.JustDown(this.notebookKey)) {
