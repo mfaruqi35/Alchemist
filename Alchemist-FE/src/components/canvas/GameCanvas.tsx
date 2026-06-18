@@ -3,13 +3,9 @@
 import { useEffect, useRef, useState } from 'react';
 
 import MainScene from '@/core/game/scenes/MainScene';
-<<<<<<< HEAD
 import TitrationScene from '@/core/game/scenes/workspaceScenes/TitrationScene';
 import NotebookScene from '@/core/game/scenes/overlayScenes/NotebookScene';
-=======
->>>>>>> 596fcd9efce43175a449c1a668b65ac9c068afbd
 import InventoryScene from '@/core/game/scenes/overlayScenes/InventoryScene'; // Impor di sini
-import NotebookScene from '@/core/game/scenes/overlayScenes/NotebookScene';
 
 export default function GameCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);

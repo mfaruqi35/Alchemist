@@ -90,6 +90,30 @@ export default class MainScene extends Phaser.Scene {
       this.inventoryKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
     }
 
+    this.events.on('pause', () => {
+      this.interactPromptText = null;
+      this.currentPromptText = null;
+      window.dispatchEvent(
+        new CustomEvent('interact-prompt', { detail: null })
+      );
+    });
+
+    this.events.on('sleep', () => {
+      this.interactPromptText = null;
+      this.currentPromptText = null;
+      window.dispatchEvent(
+        new CustomEvent('interact-prompt', { detail: null })
+      );
+    });
+
+    this.events.on('shutdown', () => {
+      this.interactPromptText = null;
+      this.currentPromptText = null;
+      window.dispatchEvent(
+        new CustomEvent('interact-prompt', { detail: null })
+      );
+    });
+
 
 
     const workspaceData = [
