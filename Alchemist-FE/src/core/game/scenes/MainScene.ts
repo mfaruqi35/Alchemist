@@ -18,7 +18,7 @@ export default class MainScene extends Phaser.Scene {
 
   preload(): void {
     // Map
-    this.load.image('lab_background', '/images/Maps.webp');
+    this.load.image('lab_background', '/images/map3.webp');
 
     // Character
     this.load.image('player_front', '/player/apd/apd_front.webp');
@@ -42,7 +42,7 @@ export default class MainScene extends Phaser.Scene {
     const obstacles = this.physics.add.staticGroup();
 
     // Obstacles
-    const centerTable = this.add.zone(745, 575, 600, 250);
+    const centerTable = this.add.zone(690, 540, 590, 250);
     this.physics.add.existing(centerTable, true);
     obstacles.add(centerTable);
 
@@ -50,17 +50,13 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.existing(sink, true);
     obstacles.add(sink);
 
-    const wallTop = this.add.zone(697, 158, 1340, 270);
+    const wallTop = this.add.zone(697, 130, 1340, 270);
     this.physics.add.existing(wallTop, true);
     obstacles.add(wallTop);
 
     const wallLeft = this.add.zone(40, 373, 30, 155);
     this.physics.add.existing(wallLeft, true);
     obstacles.add(wallLeft);
-
-    const wallRight = this.add.zone(1450, 598, 30, 55);
-    this.physics.add.existing(wallRight, true);
-    obstacles.add(wallRight);
 
     const wallBot1 = this.add.zone(305, 1016, 280, 20);
     this.physics.add.existing(wallBot1, true);
@@ -70,7 +66,7 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.existing(wallBot2, true);
     obstacles.add(wallBot2);
 
-    const bins = this.add.zone(1413, 388, 100, 360);
+    const bins = this.add.zone(1400, 388, 120, 360);
     this.physics.add.existing(bins, true);
     obstacles.add(bins);
 
@@ -78,7 +74,7 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.existing(storage, true);
     obstacles.add(storage);
 
-    const analyzeTable = this.add.zone(747, 980, 600, 90);
+    const analyzeTable = this.add.zone(700, 980, 600, 90);
     this.physics.add.existing(analyzeTable, true);
     obstacles.add(analyzeTable);
 
@@ -109,11 +105,12 @@ export default class MainScene extends Phaser.Scene {
     });
 
     const workspaceData = [
-      { id: 'buret_station', name: 'Meja Titrasi', x: 745, y: 575, w: 650, h: 260 },
+      { id: 'buret_station', name: 'Meja Titrasi', x: 700, y: 575, w: 650, h: 260 },
       { id: 'storage', name: 'Lemari', x: 200, y: 800, w: 150, h: 150 },
       { id: 'meja_analisis', name: 'Meja Analisis', x: 747, y: 980, w: 200, h: 150 },
-      { id: 'apd', name: 'Alat Pelindung Diri', x: 430, y: 200, w: 220, h: 200 },
+      { id: 'apd', name: 'Alat Pelindung Diri', x: 390, y: 200, w: 220, h: 200 },
       { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
+      { id: 'bins', name: 'Tong Sampah', x: 1413, y: 388, w: 180, h: 300 },
     ];
 
     this.workspaces = workspaceData.map((data) => {
