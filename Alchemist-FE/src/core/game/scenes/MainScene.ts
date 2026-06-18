@@ -110,7 +110,7 @@ export default class MainScene extends Phaser.Scene {
       { id: 'meja_analisis', name: 'Meja Analisis', x: 747, y: 980, w: 200, h: 150 },
       { id: 'apd', name: 'Alat Pelindung Diri', x: 390, y: 200, w: 220, h: 200 },
       { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
-      { id: 'bins', name: 'Tong Sampah', x: 1413, y: 388, w: 180, h: 300 },
+      { id: 'bins', name: 'Tong Sampah', x: 1413, y: 388,  w: 180, h: 300 },
     ];
 
     this.workspaces = workspaceData.map((data) => {
@@ -173,9 +173,13 @@ export default class MainScene extends Phaser.Scene {
         this.scene.pause();
         this.scene.launch('TitrationScene');
         break;
-      case 'storage':
+      case 'meja_analisis':
         this.scene.pause();
-        this.scene.launch('StorageScene');
+        this.scene.launch('AnalyzeTableScene');
+        break;
+      case 'bins':
+        this.scene.pause();
+        this.scene.launch('DisposalScene');
         break;
       default:
         console.warn(`Workspace ID ${workspaceId} belum terintegrasi dengan scene.`);

@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import AlchemistSVGNoBg from '@/components/molekule/alchemist-no-bg';
 
-export default function TestSection() {
+export default function PostTestSection() {
   const router = useRouter();
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -14,52 +14,52 @@ export default function TestSection() {
 
   const questions = [
     {
-      text: 'Larutan yang memiliki nilai pH kurang dari 7 termasuk golongan ...',
+      text: 'Larutan yang konsentrasinya sudah diketahui secara pasti dalam titrasi disebut...',
       options: [
-        { id: 'A', text: 'Basa kuat' },
-        { id: 'B', text: 'Basa lemah' },
-        { id: 'C', text: 'Asam' },
-        { id: 'D', text: 'Netral' },
-      ],
-      answer: 'C',
-    },
-    {
-      text: 'Fungsi indikator asam-basa pada proses titrasi adalah untuk ...',
-      options: [
-        { id: 'A', text: 'Menentukan massa larutan' },
-        { id: 'B', text: 'Mengukur suhu larutan' },
-        { id: 'C', text: 'Menunjukkan terjadinya perubahan pH pada titik akhir titrasi' },
-        { id: 'D', text: 'Menentukan volume larutan' },
-      ],
-      answer: 'C',
-    },
-    {
-      text: 'Alat laboratorium yang digunakan untuk meneteskan larutan titran secara terukur selama proses titrasi adalah ...',
-      options: [
-        { id: 'A', text: 'Gelas beker' },
-        { id: 'B', text: 'Erlenmeyer' },
-        { id: 'C', text: 'Buret' },
-        { id: 'D', text: 'Pipet tetes' },
-      ],
-      answer: 'C',
-    },
-    {
-      text: 'Tujuan utama titrasi asam-basa adalah untuk ...',
-      options: [
-        { id: 'A', text: 'Menentukan warna larutan' },
-        { id: 'B', text: 'Menentukan konsentrasi larutan yang belum diketahui' },
-        { id: 'C', text: 'Menentukan massa jenis larutan' },
-        { id: 'D', text: 'Mengukur titik didih larutan' },
+        { id: 'A', text: 'Larutan indikator' },
+        { id: 'B', text: 'Larutan standar' },
+        { id: 'C', text: 'Larutan buffer' },
+        { id: 'D', text: 'Larutan jenuh' },
       ],
       answer: 'B',
     },
     {
-      text: 'Sebanyak 20 mL larutan asam dititrasi dengan 0,1 M larutan basa. Jika pada titik ekuivalen diperlukan 20 mL larutan basa, maka konsentrasi larutan asam tersebut adalah ...',
+      text: 'Fungsi erlenmeyer dalam titrasi asam-basa adalah...',
       options: [
-        { id: 'A', text: '0,05 M' },
-        { id: 'B', text: '0,10 M' },
+        { id: 'A', text: 'Tempat larutan titran' },
+        { id: 'B', text: 'Mengukur volume larutan secara presisi' },
+        { id: 'C', text: 'Tempat larutan yang dititrasi' },
+        { id: 'D', text: 'Meneteskan larutan secara bertahap' },
+      ],
+      answer: 'C',
+    },
+    {
+      text: 'Sebanyak 25 mL NaOH dititrasi menggunakan HCl 0,2 M. Volume HCl yang diperlukan hingga titik ekivalen adalah 20 mL. Konsentrasi NaOH adalah...',
+      options: [
+        { id: 'A', text: '0,10 M' },
+        { id: 'B', text: '0,16 M' },
         { id: 'C', text: '0,20 M' },
-        { id: 'D', text: '0,40 M' },
+        { id: 'D', text: '0,25 M' },
+      ],
+      answer: 'B',
+    },
+    {
+      text: 'Hasil teoritis menunjukkan titik ekivalen tercapai pada 20 mL HCl, tetapi hasil eksperimen menunjukkan 17 mL. Penyebab yang paling mungkin adalah...',
+      options: [
+        { id: 'A', text: 'Titrasi berhenti sebelum titik akhir tercapai' },
+        { id: 'B', text: 'Larutan tidak bereaksi' },
+        { id: 'C', text: 'Konsentrasi larutan menjadi nol' },
+        { id: 'D', text: 'Indikator tidak larut dalam larutan' },
+      ],
+      answer: 'A',
+    },
+    {
+      text: 'Setelah praktikum selesai, larutan sisa masih bersifat basa. Tindakan yang tepat adalah...',
+      options: [
+        { id: 'A', text: 'Membuang ke wastafel langsung' },
+        { id: 'B', text: 'Membuang ke wadah limbah basa yang sesuai' },
+        { id: 'C', text: 'Menyimpan di meja laboratorium' },
+        { id: 'D', text: 'Menambahkan indikator lalu membuangnya' },
       ],
       answer: 'B',
     },
@@ -68,7 +68,7 @@ export default function TestSection() {
   const question = questions[currentQuestion - 1];
 
   return (
-    <section className="relative w-full   flex flex-col items-center justify-center overflow-hidden py-10">
+    <section className="relative w-full flex flex-col items-center justify-center overflow-hidden py-10">
       {/* Background SVG */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none mt-15">
         <AlchemistSVGNoBg />
@@ -77,7 +77,7 @@ export default function TestSection() {
       {/* Content Wrapper */}
       <div className="relative z-10 w-full max-w-5xl flex flex-col items-center gap-4 md:gap-8 px-4">
         {/* Progress Bar */}
-        <div className="w-full max-w-[400px]  h-6 md:h-8 bg-[#D8D2FA] border-[3px] border-[#4B2F89] rounded-xl overflow-hidden shadow-[2px_2px_0px_#4B2F89] relative flex items-center p-1 translate-y-20">
+        <div className="w-full max-w-[400px] h-6 md:h-8 bg-[#D8D2FA] border-[3px] border-[#4B2F89] rounded-xl overflow-hidden shadow-[2px_2px_0px_#4B2F89] relative flex items-center p-1 translate-y-20">
           <div
             className="h-full bg-[#8A58D8] rounded-md transition-all duration-300"
             style={{ width: `${(currentQuestion / totalQuestions) * 100}%` }}
@@ -85,9 +85,9 @@ export default function TestSection() {
         </div>
 
         {/* Question Frame */}
-        <div className="relative w-full min-h-screen flex flex-col items-center justify-center ">
+        <div className="relative w-full min-h-screen flex flex-col items-center justify-center">
           {/* Background Border */}
-          <div className="absolute inset-0 w-full h-full -z-10 -translate-y- flex items-center justify-center">
+          <div className="absolute inset-0 w-full h-full -z-10 flex items-center justify-center">
             <Image
               src="/images/borderDiagnostig.webp"
               alt="Retro Frame"
@@ -98,11 +98,9 @@ export default function TestSection() {
             />
           </div>
           {/* Inner Content Container */}
-          <div className="flex flex-col items-center justify-start mt-5  w-full max-w-3xl gap-4 md:gap-6 lg:gap-8 rounded-lg ">
-            {/* Question Number */}
-
+          <div className="flex flex-col items-center justify-start mt-5 w-full max-w-3xl gap-4 md:gap-6 lg:gap-8 rounded-lg">
             {/* Question Box */}
-            <div className="w-full border-[2px] md:border-[3px] border-dotted border-[#62B2E6] p-4 md:p-8 bg-white/60  backdrop-blur-sm">
+            <div className="w-full border-[2px] md:border-[3px] border-dotted border-[#62B2E6] p-4 md:p-8 bg-white/60 backdrop-blur-sm">
               <p className="text-center text-[#4B2F89] text-sm sm:text-base md:text-xl font-medium leading-relaxed">
                 {question.text}
               </p>
@@ -126,8 +124,7 @@ export default function TestSection() {
               ))}
             </div>
 
-            {/* Navigation / Next Button (Mockup functionality) */}
-
+            {/* Navigation / Next Button */}
             {selectedOption && (
               <div className="-translate-y-5">
                 <button
@@ -136,7 +133,7 @@ export default function TestSection() {
                       setCurrentQuestion((c) => c + 1);
                       setSelectedOption(null);
                     } else {
-                      router.push('/materi/map');
+                      router.push('/menu');
                     }
                   }}
                   className="px-6 py-3 bg-secondary text-secondary-foreground text-xs md:text-base border-[3px] border-primary hover:bg-primary hover:text-primary-foreground transition-colors shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1 uppercase font-bold tracking-widest"
