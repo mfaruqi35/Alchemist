@@ -1,6 +1,6 @@
 'use client';
 
-import { SidebarInset,SidebarProvider, SidebarTrigger } from '@/components/atoms';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/atoms';
 import { AppSidebar } from '@/core/components/app-sidebar';
 
 import LanguageDropdown from '../components/language.dropdown';

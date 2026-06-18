@@ -4,6 +4,7 @@ export default class TitrationScene extends Phaser.Scene {
   private qteBg!: Phaser.GameObjects.Image;
   private qteTarget!: Phaser.GameObjects.Image;
   private qteIndicator!: Phaser.GameObjects.Image;
+  private qteSpaceSprite!: Phaser.GameObjects.Sprite;
 
   private isTitrasiActive: boolean = false;
   private volumeBuret: number = 50.0;
@@ -36,6 +37,10 @@ export default class TitrationScene extends Phaser.Scene {
     this.load.image('qte_bg', '/images/qte_bar.webp');
     this.load.image('qte_target', '/images/qte_target.webp');
     this.load.image('qte_indicator', '/images/qte_indicator.webp');
+    this.load.spritesheet('qte_sprite', '/images/qte_sprite.webp', {
+      frameWidth: 991,
+      frameHeight: 793,
+    });
   }
 
   create(): void {
@@ -45,8 +50,8 @@ export default class TitrationScene extends Phaser.Scene {
     const centerX = width / 2;
     const centerY = height / 2;
 
-    const qteX = centerX + 350;
-    const qteY = centerY;
+    const qteX = centerX - 400;
+    const qteY = centerY - 20;
     this.add.rectangle(0, 0, width, height, 0x000000, 0.8).setOrigin(0, 0);
     this.add.image(centerX, centerY, 'scene_background');
 
@@ -57,6 +62,22 @@ export default class TitrationScene extends Phaser.Scene {
     this.qteBg = this.add.image(qteX, qteY, 'qte_bg').setScale(skalaAlat);
     this.qteTarget = this.add.image(qteX, qteY + 60, 'qte_target').setScale(skalaAlat);
     this.qteIndicator = this.add.image(qteX, qteY - 150, 'qte_indicator').setScale(skalaAlat);
+
+    // Animasi tombol spasi
+    if (!this.anims.exists('qte_space_anim')) {
+      this.anims.create({
+        key: 'qte_space_anim',
+        frames: this.anims.generateFrameNumbers('qte_sprite', { start: 0, end: 1 }),
+        frameRate: 4, // 250ms per frame
+        repeat: -1,
+      });
+    }
+
+    this.qteSpaceSprite = this.add
+      .sprite(qteX, qteY + this.qteBg.displayHeight / 2 + 70, 'qte_sprite')
+      .setScale(0.25)
+      .setOrigin(0.5);
+    this.qteSpaceSprite.play('qte_space_anim');
 
     this.setQTEVisibility(false);
 
@@ -194,6 +215,9 @@ export default class TitrationScene extends Phaser.Scene {
     this.qteBg.setVisible(visible);
     this.qteTarget.setVisible(visible);
     this.qteIndicator.setVisible(visible);
+    if (this.qteSpaceSprite) {
+      this.qteSpaceSprite.setVisible(visible);
+    }
   }
 
   private updateCairanErlenmeyer(x: number, y: number, skala: number): void {

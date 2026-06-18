@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import MainScene from '@/core/game/scenes/MainScene';
 import TitrationScene from '@/core/game/scenes/workspaceScenes/TitrationScene';
+import StorageScene from '@/core/game/scenes/workspaceScenes/StorageScene';
 import NotebookScene from '@/core/game/scenes/overlayScenes/NotebookScene';
 import InventoryScene from '@/core/game/scenes/overlayScenes/InventoryScene'; // Impor di sini
 
@@ -41,7 +42,7 @@ export default function GameCanvas() {
             debug: true,
           },
         },
-        scene: [MainScene, NotebookScene, InventoryScene, TitrationScene],
+        scene: [MainScene, NotebookScene, InventoryScene, TitrationScene, StorageScene],
       };
 
       if (!gameRef.current && containerRef.current) {

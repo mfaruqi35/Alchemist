@@ -18,25 +18,37 @@ const MenuSection = () => {
         </h1>
 
         {/* Menu Buttons */}
-      <Link 
-  href="/materi" 
-  className="w-full px-6 py-4 bg-secondary text-secondary-foreground text-sm md:text-lg border-4 border-primary hover:bg-secondary hover:text-primary-foreground hover:border-secondary transition-colors duration-200 shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1 uppercase font-bold tracking-widest text-center"
->
-  Start Lab
-</Link>
-        <Link href="/praktikum" className="w-full px-6 py-4 bg-secondary text-secondary-foreground text-sm md:text-lg border-4 border-primary hover:bg-secondary hover:text-primary-foreground hover:border-secondary transition-colors duration-200 shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1 uppercase font-bold tracking-widest text-center">
+        <Link
+          href="/materi"
+          className="w-full px-6 py-4 bg-secondary text-secondary-foreground text-sm md:text-lg border-4 border-primary hover:bg-secondary hover:text-primary-foreground hover:border-secondary transition-colors duration-200 shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1 uppercase font-bold tracking-widest text-center"
+        >
+          Start Lab
+        </Link>
+        <Link
+          href="/praktikum"
+          className="w-full px-6 py-4 bg-secondary text-secondary-foreground text-sm md:text-lg border-4 border-primary hover:bg-secondary hover:text-primary-foreground hover:border-secondary transition-colors duration-200 shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1 uppercase font-bold tracking-widest text-center"
+        >
           Module
         </Link>
 
-        <Link href="/kuis" className="w-full px-6 py-4 bg-secondary text-secondary-foreground text-sm md:text-lg border-4 border-primary hover:bg-secondary hover:text-primary-foreground hover:border-secondary transition-colors duration-200 shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1 uppercase font-bold tracking-widest text-center">
+        <Link
+          href="/kuis"
+          className="w-full px-6 py-4 bg-secondary text-secondary-foreground text-sm md:text-lg border-4 border-primary hover:bg-secondary hover:text-primary-foreground hover:border-secondary transition-colors duration-200 shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1 uppercase font-bold tracking-widest text-center"
+        >
           Kuis
         </Link>
-        
-        <Link href="/petunjuk" className="w-full px-6 py-4 bg-secondary text-secondary-foreground text-sm md:text-lg border-4 border-primary hover:bg-secondary hover:text-primary-foreground hover:border-secondary transition-colors duration-200 shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1 uppercase font-bold tracking-widest text-center">
+
+        <Link
+          href="/petunjuk"
+          className="w-full px-6 py-4 bg-secondary text-secondary-foreground text-sm md:text-lg border-4 border-primary hover:bg-secondary hover:text-primary-foreground hover:border-secondary transition-colors duration-200 shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1 uppercase font-bold tracking-widest text-center"
+        >
           Petunjuk
         </Link>
 
-        <Link href="/" className="w-full px-6 py-4 bg-secondary text-secondary-foreground text-sm md:text-lg border-4 border-primary hover:bg-secondary hover:text-primary-foreground hover:border-secondary transition-colors duration-200 shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1 uppercase font-bold tracking-widest text-center">
+        <Link
+          href="/"
+          className="w-full px-6 py-4 bg-secondary text-secondary-foreground text-sm md:text-lg border-4 border-primary hover:bg-secondary hover:text-primary-foreground hover:border-secondary transition-colors duration-200 shadow-[4px_4px_0px_0px_rgba(26,42,122,1)] active:shadow-[0px_0px_0px_0px_rgba(26,42,122,1)] active:translate-y-1 active:translate-x-1 uppercase font-bold tracking-widest text-center"
+        >
           Kembali
         </Link>
       </div>
