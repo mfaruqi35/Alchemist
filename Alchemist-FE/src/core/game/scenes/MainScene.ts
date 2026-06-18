@@ -9,7 +9,7 @@ export default class MainScene extends Phaser.Scene {
   private activeWorkspaceId: string | null = null;
   private interactPromptText: string | null = null;
   private currentPromptText: string | null = null;
-  private workspaces: { zone: Phaser.GameObjects.Zone, data: any }[] = [];
+  private workspaces: { zone: Phaser.GameObjects.Zone; data: any }[] = [];
   private player!: Player;
 
   constructor() {
@@ -93,28 +93,20 @@ export default class MainScene extends Phaser.Scene {
     this.events.on('pause', () => {
       this.interactPromptText = null;
       this.currentPromptText = null;
-      window.dispatchEvent(
-        new CustomEvent('interact-prompt', { detail: null })
-      );
+      window.dispatchEvent(new CustomEvent('interact-prompt', { detail: null }));
     });
 
     this.events.on('sleep', () => {
       this.interactPromptText = null;
       this.currentPromptText = null;
-      window.dispatchEvent(
-        new CustomEvent('interact-prompt', { detail: null })
-      );
+      window.dispatchEvent(new CustomEvent('interact-prompt', { detail: null }));
     });
 
     this.events.on('shutdown', () => {
       this.interactPromptText = null;
       this.currentPromptText = null;
-      window.dispatchEvent(
-        new CustomEvent('interact-prompt', { detail: null })
-      );
+      window.dispatchEvent(new CustomEvent('interact-prompt', { detail: null }));
     });
-
-
 
     const workspaceData = [
       { id: 'buret_station', name: 'Meja Titrasi', x: 745, y: 575, w: 650, h: 260 },
@@ -172,9 +164,7 @@ export default class MainScene extends Phaser.Scene {
 
     if (this.currentPromptText !== this.interactPromptText) {
       this.currentPromptText = this.interactPromptText;
-      window.dispatchEvent(
-        new CustomEvent('interact-prompt', { detail: this.currentPromptText })
-      );
+      window.dispatchEvent(new CustomEvent('interact-prompt', { detail: this.currentPromptText }));
     }
   }
 
@@ -185,6 +175,10 @@ export default class MainScene extends Phaser.Scene {
       case 'buret_station':
         this.scene.pause();
         this.scene.launch('TitrationScene');
+        break;
+      case 'storage':
+        this.scene.pause();
+        this.scene.launch('StorageScene');
         break;
       default:
         console.warn(`Workspace ID ${workspaceId} belum terintegrasi dengan scene.`);

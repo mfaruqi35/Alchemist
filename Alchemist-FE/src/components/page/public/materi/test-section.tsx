@@ -21,7 +21,7 @@ export default function TestSection() {
         { id: 'C', text: 'Asam' },
         { id: 'D', text: 'Netral' },
       ],
-      answer: 'C'
+      answer: 'C',
     },
     {
       text: 'Fungsi indikator asam-basa pada proses titrasi adalah untuk ...',
@@ -31,7 +31,7 @@ export default function TestSection() {
         { id: 'C', text: 'Menunjukkan terjadinya perubahan pH pada titik akhir titrasi' },
         { id: 'D', text: 'Menentukan volume larutan' },
       ],
-      answer: 'C'
+      answer: 'C',
     },
     {
       text: 'Alat laboratorium yang digunakan untuk meneteskan larutan titran secara terukur selama proses titrasi adalah ...',
@@ -41,7 +41,7 @@ export default function TestSection() {
         { id: 'C', text: 'Buret' },
         { id: 'D', text: 'Pipet tetes' },
       ],
-      answer: 'C'
+      answer: 'C',
     },
     {
       text: 'Tujuan utama titrasi asam-basa adalah untuk ...',
@@ -51,7 +51,7 @@ export default function TestSection() {
         { id: 'C', text: 'Menentukan massa jenis larutan' },
         { id: 'D', text: 'Mengukur titik didih larutan' },
       ],
-      answer: 'B'
+      answer: 'B',
     },
     {
       text: 'Sebanyak 20 mL larutan asam dititrasi dengan 0,1 M larutan basa. Jika pada titik ekuivalen diperlukan 20 mL larutan basa, maka konsentrasi larutan asam tersebut adalah ...',
@@ -61,8 +61,8 @@ export default function TestSection() {
         { id: 'C', text: '0,20 M' },
         { id: 'D', text: '0,40 M' },
       ],
-      answer: 'B'
-    }
+      answer: 'B',
+    },
   ];
 
   const question = questions[currentQuestion - 1];

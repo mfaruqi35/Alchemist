@@ -48,19 +48,18 @@ export default function AppHeader() {
           <Link href="/">
             <Image src="/images/logo.png" alt="Logo" width={40} height={40} />
           </Link>
-
         </div>
-          <NavigationMenu>
-            <NavigationMenuList>
-              {navigationMenuConfig?.items?.map((item) => (
-                <NavigationMenuItem key={item.title}>
-                  <NavigationMenuLink href={item.href} className={navigationMenuTriggerStyle()}>
-                    {item.title}
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
+        <NavigationMenu>
+          <NavigationMenuList>
+            {navigationMenuConfig?.items?.map((item) => (
+              <NavigationMenuItem key={item.title}>
+                <NavigationMenuLink href={item.href} className={navigationMenuTriggerStyle()}>
+                  {item.title}
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
+          </NavigationMenuList>
+        </NavigationMenu>
 
         <div className="flex items-center gap-4">
           <ThemeToggle />
