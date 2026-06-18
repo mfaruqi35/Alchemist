@@ -10,6 +10,7 @@ import AnalyzeTableScene from '@/core/game/scenes/workspaceScenes/AnalyzeTableSc
 import DisposalScene from '@/core/game/scenes/workspaceScenes/DisposalScene';
 import TitrationScene from '@/core/game/scenes/workspaceScenes/TitrationScene';
 import { useAlert } from '@/hooks/useAlert/costum-alert';
+import StorageScene from '@/core/game/scenes/workspaceScenes/StorageScene';
 
 export default function GameCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -22,15 +23,19 @@ export default function GameCanvas() {
       const customEvent = e as CustomEvent<string | null>;
       setPromptText(customEvent.detail);
     };
-    
+
     const handleAlert = (e: Event) => {
-      const customEvent = e as CustomEvent<{ message: string; title: string; icon?: 'success' | 'error' | 'warning' | 'info' }>;
+      const customEvent = e as CustomEvent<{
+        message: string;
+        title: string;
+        icon?: 'success' | 'error' | 'warning' | 'info';
+      }>;
       toastAlert(customEvent.detail);
     };
 
     window.addEventListener('interact-prompt', handlePrompt);
     window.addEventListener('game-alert', handleAlert);
-    
+
     return () => {
       window.removeEventListener('interact-prompt', handlePrompt);
       window.removeEventListener('game-alert', handleAlert);
@@ -57,7 +62,16 @@ export default function GameCanvas() {
             debug: true,
           },
         },
-        scene: [MainScene, NotebookScene, InventoryScene, TitrationScene, AnalyzeTableScene, CalculatorScene, DisposalScene],
+        scene: [
+          MainScene,
+          NotebookScene,
+          InventoryScene,
+          TitrationScene,
+          AnalyzeTableScene,
+          CalculatorScene,
+          DisposalScene,
+          StorageScene,
+        ],
       };
 
       if (!gameRef.current && containerRef.current) {
