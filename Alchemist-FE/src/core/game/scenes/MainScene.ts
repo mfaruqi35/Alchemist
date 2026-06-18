@@ -106,11 +106,12 @@ export default class MainScene extends Phaser.Scene {
 
     const workspaceData = [
       { id: 'buret_station', name: 'Meja Titrasi', x: 700, y: 575, w: 650, h: 260 },
-      { id: 'storage', name: 'Lemari', x: 200, y: 800, w: 150, h: 150 },
+      { id: 'storage', name: 'Lemari', x: 110, y: 800, w: 150, h: 150 },
       { id: 'meja_analisis', name: 'Meja Analisis', x: 747, y: 980, w: 200, h: 150 },
       { id: 'apd', name: 'Alat Pelindung Diri', x: 390, y: 200, w: 220, h: 200 },
       { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
       { id: 'bins', name: 'Tong Sampah', x: 1413, y: 388, w: 180, h: 300 },
+      { id: 'exit', name: 'Keluar', x: 120, y: 200, w: 180, h: 200 },
     ];
 
     this.workspaces = workspaceData.map((data) => {
@@ -149,7 +150,11 @@ export default class MainScene extends Phaser.Scene {
 
     if (isOverlapping) {
       this.activeWorkspaceId = overlappingId;
-      this.interactPromptText = `Tekan E untuk menggunakan ${overlappingName}`;
+      if (overlappingId === 'exit') {
+        this.interactPromptText = 'Tekan E untuk Keluar';
+      } else {
+        this.interactPromptText = `Tekan E untuk menggunakan ${overlappingName}`;
+      }
 
       if (Phaser.Input.Keyboard.JustDown(this.interactKey)) {
         this.handleTransitionWorkspace(this.activeWorkspaceId!);
@@ -184,6 +189,9 @@ export default class MainScene extends Phaser.Scene {
       case 'storage':
         this.scene.pause();
         this.scene.launch('StorageScene');
+        break;
+      case 'exit':
+        window.location.href = '/menu';
         break;
       default:
         console.warn(`Workspace ID ${workspaceId} belum terintegrasi dengan scene.`);

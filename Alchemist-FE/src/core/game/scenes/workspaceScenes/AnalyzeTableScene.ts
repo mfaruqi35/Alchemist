@@ -24,7 +24,7 @@ export default class AnalyzeTableScene extends Phaser.Scene {
     const calculatorBtn = this.add.image(centerX1, centerY1, 'calculator');
     calculatorBtn.setScale(0.3);
     calculatorBtn.setInteractive({ useHandCursor: true });
-  
+
     calculatorBtn.on('pointerdown', () => {
       this.scene.pause();
       this.scene.launch('CalculatorScene');
