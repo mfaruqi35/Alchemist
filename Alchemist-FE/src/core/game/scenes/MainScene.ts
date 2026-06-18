@@ -26,6 +26,9 @@ export default class MainScene extends Phaser.Scene {
     this.load.image('player_back', '/player/apd/apd_backward.webp');
     this.load.image('player_right', '/player/apd/apd_right.webp');
     this.load.image('player_left', '/player/apd/apd_left.webp');
+
+    // UI
+    this.load.image('objective_border', '/images/borderbg.webp');
   }
 
   create(): void {
@@ -96,6 +99,29 @@ export default class MainScene extends Phaser.Scene {
     obstacles.add(analyzeTable);
 
     this.physics.add.collider(this.player, obstacles);
+
+
+    const objX = width - 550;
+    const objY = 125;
+
+    const objectiveBorder = this.add.image(objX, objY, 'objective_border');
+    objectiveBorder.setScale(0.55);
+    objectiveBorder.setScrollFactor(0); // Fixed position on screen
+
+    const objectiveText = `Tentukan konsentrasi larutan NaOH yang tidak diketahui menggunakan larutan standar HCl 0,2 M sebanyak 25 mL.\n\nAlur:\n- Keselamatan lab: pakai APD\n- Storage: ambil HCl 0,2 M, larutan NaOH unknown, indikator fenolftalein, buret, erlenmeyer\n- Titrasi: isi buret dengan HCl, masukkan NaOH ke erlenmeyer, titrasi sampai warna berubah, catat volume HCl\n- Analysis: hitung konsentrasi NaOH dengan M1V1 = M2V2\n- Disposal: cek pH sisa larutan, buang ke kontainer yang sesuai`;
+
+  const objTextObj = this.add.text(objX, objY - 10, objectiveText, {
+  fontFamily: 'Roboto',
+  fontSize: '11px',
+  color: '#',
+  fontStyle: 'normal', // Tambahkan baris ini untuk membuat teks bold
+  wordWrap: { width: 500, useAdvancedWrap: true },
+  lineSpacing: 4,
+});
+
+objTextObj.setOrigin(0.5);
+objTextObj.setScrollFactor(0);
+    // -------------------
 
     if (this.input.keyboard) {
       this.interactKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
