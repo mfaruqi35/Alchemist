@@ -8,9 +8,9 @@ import InventoryScene from '@/core/game/scenes/overlayScenes/InventoryScene'; //
 import NotebookScene from '@/core/game/scenes/overlayScenes/NotebookScene';
 import AnalyzeTableScene from '@/core/game/scenes/workspaceScenes/AnalyzeTableScene';
 import DisposalScene from '@/core/game/scenes/workspaceScenes/DisposalScene';
+import StorageScene from '@/core/game/scenes/workspaceScenes/StorageScene';
 import TitrationScene from '@/core/game/scenes/workspaceScenes/TitrationScene';
 import { useAlert } from '@/hooks/useAlert/costum-alert';
-import StorageScene from '@/core/game/scenes/workspaceScenes/StorageScene';
 
 export default function GameCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
