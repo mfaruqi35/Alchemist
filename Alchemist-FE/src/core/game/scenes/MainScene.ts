@@ -26,6 +26,10 @@ export default class MainScene extends Phaser.Scene {
     this.load.image('player_back', '/player/apd/apd_backward.webp');
     this.load.image('player_right', '/player/apd/apd_right.webp');
     this.load.image('player_left', '/player/apd/apd_left.webp');
+    this.load.spritesheet('player_walk_back_sheet', '/player/apd/walk_back.webp', {
+      frameWidth: 350,
+      frameHeight: 604
+    });
 
     // UI
     // this.load.image('objective_border', '/images/borderbg.webp');
@@ -157,7 +161,7 @@ export default class MainScene extends Phaser.Scene {
       // { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
       { id: 'bins', name: 'Tong Sampah', x: 1413, y: 388, w: 180, h: 300 },
       { id: 'exit', name: 'Keluar', x: 120, y: 200, w: 180, h: 200 },
-      { id: 'quest', name: 'Quest', x: 900, y: 200, w: 180, h: 200 },
+      { id: 'quest', name: 'Quest', x: 950, y: 200, w: 350, h: 200 },
     ];
 
     this.workspaces = workspaceData.map((data) => {

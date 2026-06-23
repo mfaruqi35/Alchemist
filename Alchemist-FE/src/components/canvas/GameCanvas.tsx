@@ -49,6 +49,7 @@ export default function GameCanvas() {
 
       const config: Phaser.Types.Core.GameConfig = {
         type: Phaser.AUTO,
+        
         width: 1497,
         height: 1051,
         parent: containerRef.current,
@@ -60,7 +61,7 @@ export default function GameCanvas() {
           default: 'arcade', // Mengaktifkan sistem physics arcade untuk mendeteksi pergerakan dan tabrakan
           arcade: {
             gravity: { x: 0, y: 0 }, // Set 0 karena ini game top-down (tidak ada gravitasi jatuh)
-            debug: false,
+            debug: true,
           },
         },
         scene: [
