@@ -13,6 +13,7 @@ import TitrationScene from '@/core/game/scenes/workspaceScenes/TitrationScene';
 import QuestScene from '@/core/game/scenes/overlayScenes/QuestScene';
 import { useAlert } from '@/hooks/useAlert/costum-alert';
 import APDScene from '@/core/game/scenes/workspaceScenes/APDScene';
+import WastafelScene from '@/core/game/scenes/workspaceScenes/WastafelScene';
 
 export default function GameCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -76,6 +77,7 @@ export default function GameCanvas() {
           DisposalScene,
           StorageScene,
           APDScene,
+          WastafelScene,
         ],
       };
 

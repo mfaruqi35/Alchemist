@@ -158,7 +158,7 @@ export default class MainScene extends Phaser.Scene {
       { id: 'storage', name: 'Lemari', x: 110, y: 800, w: 150, h: 150 },
       { id: 'meja_analisis', name: 'Meja Analisis', x: 700, y: 980, w: 500, h: 150 },
       { id: 'apd', name: 'Alat Pelindung Diri', x: 420, y: 200, w: 250, h: 200 },
-      { id: 'wastafel_cuci', name: 'Wastafel', x: 1374, y: 778, w: 220, h: 320 },
+      { id: 'wastafel', name: 'Wastafel', x: 1374, y: 778, w: 220, h: 320 },
       { id: 'bins', name: 'Tong Sampah', x: 1413, y: 388, w: 180, h: 300 },
       { id: 'exit', name: 'Keluar', x: 120, y: 200, w: 180, h: 200 },
       { id: 'quest', name: 'Quest', x: 950, y: 200, w: 350, h: 200 },
@@ -257,6 +257,10 @@ export default class MainScene extends Phaser.Scene {
       case 'apd':
         this.scene.pause();
         this.scene.launch('APDScene');
+        break;
+      case 'wastafel':
+        this.scene.pause();
+        this.scene.launch('WastafelScene');
         break;
       case 'exit':
         window.location.href = '/menu';
