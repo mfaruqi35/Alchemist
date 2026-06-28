@@ -94,7 +94,7 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.existing(sink, true);
     obstacles.add(sink);
 
-    const wallTop = this.add.zone(697, 130, 1340, 270);
+    const wallTop = this.add.zone(697, 120, 1340, 270);
     this.physics.add.existing(wallTop, true);
     obstacles.add(wallTop);
 
@@ -156,9 +156,9 @@ export default class MainScene extends Phaser.Scene {
     const workspaceData = [
       { id: 'buret_station', name: 'Meja Titrasi', x: 700, y: 575, w: 650, h: 260 },
       { id: 'storage', name: 'Lemari', x: 110, y: 800, w: 150, h: 150 },
-      { id: 'meja_analisis', name: 'Meja Analisis', x: 747, y: 980, w: 200, h: 150 },
-      { id: 'apd', name: 'Alat Pelindung Diri', x: 390, y: 200, w: 220, h: 200 },
-      { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
+      { id: 'meja_analisis', name: 'Meja Analisis', x: 700, y: 980, w: 500, h: 150 },
+      { id: 'apd', name: 'Alat Pelindung Diri', x: 420, y: 200, w: 250, h: 200 },
+      { id: 'wastafel_cuci', name: 'Wastafel', x: 1374, y: 778, w: 220, h: 320 },
       { id: 'bins', name: 'Tong Sampah', x: 1413, y: 388, w: 180, h: 300 },
       { id: 'exit', name: 'Keluar', x: 120, y: 200, w: 180, h: 200 },
       { id: 'quest', name: 'Quest', x: 950, y: 200, w: 350, h: 200 },
@@ -253,6 +253,10 @@ export default class MainScene extends Phaser.Scene {
       case 'storage':
         this.scene.pause();
         this.scene.launch('StorageScene');
+        break;
+      case 'apd':
+        this.scene.pause();
+        this.scene.launch('APDScene');
         break;
       case 'exit':
         window.location.href = '/menu';

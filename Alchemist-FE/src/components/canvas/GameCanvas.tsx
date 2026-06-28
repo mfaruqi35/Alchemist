@@ -12,6 +12,7 @@ import StorageScene from '@/core/game/scenes/workspaceScenes/StorageScene';
 import TitrationScene from '@/core/game/scenes/workspaceScenes/TitrationScene';
 import QuestScene from '@/core/game/scenes/overlayScenes/QuestScene';
 import { useAlert } from '@/hooks/useAlert/costum-alert';
+import APDScene from '@/core/game/scenes/workspaceScenes/APDScene';
 
 export default function GameCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -49,7 +50,7 @@ export default function GameCanvas() {
 
       const config: Phaser.Types.Core.GameConfig = {
         type: Phaser.AUTO,
-        
+
         width: 1497,
         height: 1051,
         parent: containerRef.current,
@@ -74,6 +75,7 @@ export default function GameCanvas() {
           CalculatorScene,
           DisposalScene,
           StorageScene,
+          APDScene,
         ],
       };
 

@@ -42,7 +42,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         key: 'player_walk_back',
         frames: scene.anims.generateFrameNumbers('player_walk_back_sheet', { start: 0, end: 3 }),
         frameRate: 4, // 250ms per frame (4 frames per second)
-        repeat: -1
+        repeat: -1,
       });
     }
   }
@@ -66,14 +66,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       const targetBodyHeight = 148.1;
 
       // Unscaled dimensions
-      const unscaledWidth = targetBodyWidth / scaleX;   // 203.8
+      const unscaledWidth = targetBodyWidth / scaleX; // 203.8
       const unscaledHeight = targetBodyHeight / scaleY; // 296.2
 
       // Center horizontally inside character (bbox center is 172.5)
       const unscaledOffsetX = 172.5 - unscaledWidth / 2; // 70.6
 
       // Align bottom with character's feet (bbox bottom is 559)
-      const unscaledOffsetY = 559 - unscaledHeight;       // 262.8
+      const unscaledOffsetY = 559 - unscaledHeight; // 262.8
 
       body.setSize(unscaledWidth, unscaledHeight);
       body.setOffset(unscaledOffsetX, unscaledOffsetY);
