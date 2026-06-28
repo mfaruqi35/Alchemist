@@ -63,7 +63,7 @@ export default function GameCanvas() {
           default: 'arcade', // Mengaktifkan sistem physics arcade untuk mendeteksi pergerakan dan tabrakan
           arcade: {
             gravity: { x: 0, y: 0 }, // Set 0 karena ini game top-down (tidak ada gravitasi jatuh)
-            debug: true,
+            debug: false,
           },
         },
         scene: [

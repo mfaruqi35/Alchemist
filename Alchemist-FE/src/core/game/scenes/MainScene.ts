@@ -32,7 +32,7 @@ export default class MainScene extends Phaser.Scene {
     });
 
     // UI
-    // this.load.image('objective_border', '/images/borderbg.webp');
+    this.load.image('modul_lab', '/images/modulLab.webp');
   }
 
   create(): void {
@@ -79,6 +79,12 @@ export default class MainScene extends Phaser.Scene {
 
     const scaleY = height / bg.height;
     bg.setScale(scaleY);
+
+    // Tambahkan Icon Modul Lab di pojok kanan atas
+    const modulLabIcon = this.add.image(width - 80, 70, 'modul_lab');
+    modulLabIcon.setScale(0.8);
+    modulLabIcon.setScrollFactor(0);
+    modulLabIcon.setDepth(300);
 
     // Instansiasi player menggunakan class baru
     this.player = new Player(this, 222, 320);
@@ -283,10 +289,10 @@ export default class MainScene extends Phaser.Scene {
         this.scene.launch('QuestScene');
         break;
       case 'inventory':
-        this.scene.launch('InventoryScene'); // Membuka file InventoryScene.ts Anda
+        this.scene.launch('InventoryScene');
         break;
       default:
-        this.scene.resume('MainScene'); // Pengaman jika ID tidak ditemukan
+        this.scene.resume('MainScene');
         break;
     }
   }
