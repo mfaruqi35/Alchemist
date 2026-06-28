@@ -19,16 +19,20 @@ export default class MainScene extends Phaser.Scene {
 
   preload(): void {
     // Map
-    this.load.image('lab_background', '/images/map4.webp');
+    this.load.image('lab_background', '/images/mapnew.webp');
 
     // Character
     this.load.image('player_front', '/player/apd/apd_front.webp');
     this.load.image('player_back', '/player/apd/apd_backward.webp');
     this.load.image('player_right', '/player/apd/apd_right.webp');
     this.load.image('player_left', '/player/apd/apd_left.webp');
+    this.load.spritesheet('player_walk_back_sheet', '/player/apd/walk_back.webp', {
+      frameWidth: 350,
+      frameHeight: 604,
+    });
 
     // UI
-    // this.load.image('objective_border', '/images/borderbg.webp');
+    this.load.image('modul_lab', '/images/modulLab.webp');
   }
 
   create(): void {
@@ -76,6 +80,12 @@ export default class MainScene extends Phaser.Scene {
     const scaleY = height / bg.height;
     bg.setScale(scaleY);
 
+    // Tambahkan Icon Modul Lab di pojok kanan atas
+    const modulLabIcon = this.add.image(width - 80, 70, 'modul_lab');
+    modulLabIcon.setScale(0.8);
+    modulLabIcon.setScrollFactor(0);
+    modulLabIcon.setDepth(300);
+
     // Instansiasi player menggunakan class baru
     this.player = new Player(this, 222, 320);
 
@@ -90,7 +100,7 @@ export default class MainScene extends Phaser.Scene {
     this.physics.add.existing(sink, true);
     obstacles.add(sink);
 
-    const wallTop = this.add.zone(697, 130, 1340, 270);
+    const wallTop = this.add.zone(697, 120, 1340, 270);
     this.physics.add.existing(wallTop, true);
     obstacles.add(wallTop);
 
@@ -152,12 +162,12 @@ export default class MainScene extends Phaser.Scene {
     const workspaceData = [
       { id: 'buret_station', name: 'Meja Titrasi', x: 700, y: 575, w: 650, h: 260 },
       { id: 'storage', name: 'Lemari', x: 110, y: 800, w: 150, h: 150 },
-      { id: 'meja_analisis', name: 'Meja Analisis', x: 747, y: 980, w: 200, h: 150 },
-      // { id: 'apd', name: 'Alat Pelindung Diri', x: 390, y: 200, w: 220, h: 200 },
-      // { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
+      { id: 'meja_analisis', name: 'Meja Analisis', x: 700, y: 980, w: 500, h: 150 },
+      { id: 'apd', name: 'Alat Pelindung Diri', x: 420, y: 200, w: 250, h: 200 },
+      { id: 'wastafel', name: 'Wastafel', x: 1374, y: 778, w: 220, h: 320 },
       { id: 'bins', name: 'Tong Sampah', x: 1413, y: 388, w: 180, h: 300 },
       { id: 'exit', name: 'Keluar', x: 120, y: 200, w: 180, h: 200 },
-      { id: 'quest', name: 'Quest', x: 900, y: 200, w: 180, h: 200 },
+      { id: 'quest', name: 'Quest', x: 950, y: 200, w: 350, h: 200 },
     ];
 
     this.workspaces = workspaceData.map((data) => {
@@ -250,6 +260,14 @@ export default class MainScene extends Phaser.Scene {
         this.scene.pause();
         this.scene.launch('StorageScene');
         break;
+      case 'apd':
+        this.scene.pause();
+        this.scene.launch('APDScene');
+        break;
+      case 'wastafel':
+        this.scene.pause();
+        this.scene.launch('WastafelScene');
+        break;
       case 'exit':
         window.location.href = '/menu';
         break;
@@ -271,10 +289,10 @@ export default class MainScene extends Phaser.Scene {
         this.scene.launch('QuestScene');
         break;
       case 'inventory':
-        this.scene.launch('InventoryScene'); // Membuka file InventoryScene.ts Anda
+        this.scene.launch('InventoryScene');
         break;
       default:
-        this.scene.resume('MainScene'); // Pengaman jika ID tidak ditemukan
+        this.scene.resume('MainScene');
         break;
     }
   }
