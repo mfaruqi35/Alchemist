@@ -19,7 +19,7 @@ export default class MainScene extends Phaser.Scene {
 
   preload(): void {
     // Map
-    this.load.image('lab_background', '/images/map4.webp');
+    this.load.image('lab_background', '/images/mapnew.webp');
 
     // Character
     this.load.image('player_front', '/player/apd/apd_front.webp');
@@ -28,7 +28,7 @@ export default class MainScene extends Phaser.Scene {
     this.load.image('player_left', '/player/apd/apd_left.webp');
     this.load.spritesheet('player_walk_back_sheet', '/player/apd/walk_back.webp', {
       frameWidth: 350,
-      frameHeight: 604
+      frameHeight: 604,
     });
 
     // UI
@@ -157,8 +157,8 @@ export default class MainScene extends Phaser.Scene {
       { id: 'buret_station', name: 'Meja Titrasi', x: 700, y: 575, w: 650, h: 260 },
       { id: 'storage', name: 'Lemari', x: 110, y: 800, w: 150, h: 150 },
       { id: 'meja_analisis', name: 'Meja Analisis', x: 747, y: 980, w: 200, h: 150 },
-      // { id: 'apd', name: 'Alat Pelindung Diri', x: 390, y: 200, w: 220, h: 200 },
-      // { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
+      { id: 'apd', name: 'Alat Pelindung Diri', x: 390, y: 200, w: 220, h: 200 },
+      { id: 'wastafel_cuci', name: 'Wastafel Pembilasan', x: 1374, y: 778, w: 220, h: 320 },
       { id: 'bins', name: 'Tong Sampah', x: 1413, y: 388, w: 180, h: 300 },
       { id: 'exit', name: 'Keluar', x: 120, y: 200, w: 180, h: 200 },
       { id: 'quest', name: 'Quest', x: 950, y: 200, w: 350, h: 200 },

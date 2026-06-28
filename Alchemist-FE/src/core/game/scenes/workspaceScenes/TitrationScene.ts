@@ -30,7 +30,7 @@ export default class TitrationScene extends Phaser.Scene {
   }
 
   preload(): void {
-    this.load.image('scene_background', '/images/titrationWorkspace.webp');
+    this.load.image('scene_background', '/images/titrationWorkspace2.webp');
     this.load.image('statif', '/images/statif.webp');
     this.load.image('erlenmeyer3', '/images/erlenmeyer3.webp');
     this.load.image('buret', '/images/buret.webp');
